@@ -8,6 +8,12 @@ public class Table {
     private Employee employee;
     private Reservation reservation;
 
+    public Table(int tableId, int numberOfSeats) {
+        this.tableId = tableId;
+        this.numberOfSeats = numberOfSeats;
+        this.status = TableStatus.AVAILABLE;
+    }
+
     public boolean isAvailable() {
         return status == TableStatus.AVAILABLE;
     }
