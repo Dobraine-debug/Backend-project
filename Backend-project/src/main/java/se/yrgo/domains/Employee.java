@@ -1,4 +1,4 @@
-package main.java.se.yrgo.domains;
+package se.yrgo.domains;
 
 public class Employee {
     private String employeeId;
