@@ -3,14 +3,14 @@ package se.yrgo.domains;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity
 public class Schedule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
     private String scheduleId;
+    private LocalDate date;
 
     // Creates a column employee_fk in schema-table (instead of creating a new table)
     @ManyToOne
@@ -21,8 +21,6 @@ public class Schedule {
     @ManyToOne
     @JoinColumn(name="TABLE_FK")
     private Table table;
-
-    private LocalDate date;
 
     public Schedule(String scheduleId, Employee employee, Table table, LocalDate date) {
         this.scheduleId = scheduleId;
@@ -35,8 +33,17 @@ public class Schedule {
 
     }
 
-    public String getSchemaId() {
+
+    public int getId() {
+        return id;
+    }
+
+    public String getScheduleId() {
         return scheduleId;
+    }
+
+    public LocalDate getDate() {
+        return date;
     }
 
     public Employee getEmployee() {
@@ -47,24 +54,20 @@ public class Schedule {
         return table;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public void setScheduleId(String scheduleId) {
+        this.scheduleId = scheduleId;
     }
 
-    public void setSchemaId(String schemaId) {
-        this.scheduleId = schemaId;
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
     public void setEmployee(Employee employee) {
         this.employee = employee;
     }
 
-    public void setTable(List<Table> tables) {
+    public void setTable(Table table) {
         this.table = table;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
     }
 
     @Override

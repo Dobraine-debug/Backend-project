@@ -1,10 +1,15 @@
 package se.yrgo.domains;
 
+import jakarta.persistence.*;
+
 import java.time.LocalDate;
 
 @Entity
 public class Reservation {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
     private int reservationId;
     private Session session;
     private LocalDate date;
@@ -15,7 +20,6 @@ public class Reservation {
     @ManyToOne
     private Table table;
 
-
     public Reservation(int reservationId, Customer customer, Table table, Session session, LocalDate date){
         this.reservationId = reservationId;
         this.customer = customer;
@@ -24,6 +28,11 @@ public class Reservation {
         this.date = date;
     }
 
+    public Reservation() {
+
+    }
+
+    public int getId() { return id; }
     public int getReservationId(){return reservationId;}
     public Customer getCustomer(){return customer;}
     public Table getTable(){return table;}

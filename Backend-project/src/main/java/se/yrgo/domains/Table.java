@@ -1,10 +1,16 @@
 package se.yrgo.domains;
 
+import jakarta.persistence.*;
+
 import java.util.ArrayList;
 import java.util.List;
+
 @Entity
 public class Table {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
     private int tableId;
     private int numberOfSeats;
     private TableStatus status;
@@ -21,6 +27,10 @@ public class Table {
         this.status = TableStatus.AVAILABLE;
     }
 
+    public Table() {
+
+    }
+
     public List<Reservation> getReservations() { return reservations; }
 
     public List<Schedule> getSchedules() { return schedules; }
@@ -29,6 +39,7 @@ public class Table {
         return status == TableStatus.AVAILABLE;
     }
 
+    public int getId() { return id; }
     public int getTableId() { return tableId; }
     public int getNumberOfSeats() { return numberOfSeats; }
     public TableStatus getStatus() { return status; }

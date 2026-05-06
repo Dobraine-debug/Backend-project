@@ -3,15 +3,13 @@ package se.yrgo.domains;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
     private String employeeId;
     private String name;
     private String telephone;
@@ -37,6 +35,8 @@ public class Employee {
     public List<Schedule> getEmployeeScheduleList() {
         return employeeScheduleList;
     }
+
+    public int getId() { return id; }
 
     public String getEmployeeId() {
         return employeeId;
