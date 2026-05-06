@@ -1,12 +1,19 @@
 package se.yrgo.domains;
 
+import java.util.ArrayList;
+import java.util.List;
+@Entity
 public class Table {
+    @Id
     private int tableId;
     private int numberOfSeats;
     private TableStatus status;
 
-    private Employee employee;
-    private Reservation reservation;
+    @OneToMany(mappedBy = "table")
+    private List<Schedule> schedules = new ArrayList<>();
+
+    @OneToMany(mappedBy = "table")
+    private List<Reservation> reservations = new ArrayList<>();
 
     public Table(int tableId, int numberOfSeats) {
         this.tableId = tableId;
@@ -14,28 +21,20 @@ public class Table {
         this.status = TableStatus.AVAILABLE;
     }
 
+    public List<Reservation> getReservations() { return reservations; }
+
+    public List<Schedule> getSchedules() { return schedules; }
+
     public boolean isAvailable() {
         return status == TableStatus.AVAILABLE;
-    }
-
-    public void assignReservation(Reservation reservation) {
-        this.reservation = reservation;
-        this.status = TableStatus.RESERVED;
-    }
-
-    public void freeTable() {
-        this.reservation = null;
-        this.status = TableStatus.AVAILABLE;
-    }
-
-    public void assignEmployee(Employee employee) {
-        this.employee = employee;
     }
 
     public int getTableId() { return tableId; }
     public int getNumberOfSeats() { return numberOfSeats; }
     public TableStatus getStatus() { return status; }
-    public Employee getEmployee() { return employee; }
-    public Reservation getReservation() { return reservation; }
 
+    @Override
+    public String toString() {
+        return "Table: " + tableId + "\nNumber of seats: " + numberOfSeats + "\nStatus: " + status;
+    }
 }
