@@ -1,10 +1,21 @@
 package se.yrgo.domains;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
 import java.time.LocalDate;
 
+@Entity
 public class Invoice {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
     private String invoiceId;
     private double amount;
     private LocalDate invoiceDate;
+
+    public Invoice(){};
 
     public Invoice(String invoiceId, double amount) {
         this.invoiceId = invoiceId;
@@ -30,5 +41,10 @@ public class Invoice {
 
     public void setInvoiceDate(LocalDate invoiceDate) {
         this.invoiceDate = invoiceDate;
+    }
+
+    @Override
+    public String toString(){
+        return "Invoice ID: " + invoiceId + "\nAmount: " + amount + "\nDate: " + invoiceDate + "\nCustomer ID: " +"\n";
     }
 }
