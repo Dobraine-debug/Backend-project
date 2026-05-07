@@ -3,19 +3,25 @@ package se.yrgo.services.employees;
 import se.yrgo.domains.Employee;
 import se.yrgo.domains.Schedule;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface EmployeeService {
-    public List<Employee> showAllEmployees();
-    public Employee getEmployeeById(String employeeId);
-    public Employee getEmployeeByName(String name);
-    public void addNewEmployee(Employee employee);
-    public void deleteEmployee(String employeeId);
+    // Employee
+    List<Employee> getAllEmployees();
+    Employee findEmployeeById(String employeeId) throws EmployeeNotFoundException;
+    void saveEmployee(Employee employee);
+    void updateEmployee(Employee employeeToUpdate) throws EmployeeNotFoundException;
+    void deleteEmployee(Employee employeeToDelete) throws EmployeeNotFoundException;
 
-    public List<Schedule> showAllSchedules();
-    public List<Schedule> showSchedulesForEmployeeId(String employeeId);
-    public List<Schedule> showSchedulesForTable(String tableId);
-    public Schedule getScheduleById(String scheduleId);
-    public void addNewSchedule(Schedule schedule);
-    public void deleteSchedule(String scheduleId);
+    // Schedule
+    List<Schedule> getAllSchedules();
+    List<Schedule> findSchedulesForEmployee(String employeeId) throws EmployeeNotFoundException;
+    List<Schedule> findSchedulesForTable(String tableId);
+    List<Schedule> findSchedulesForDate(LocalDate date);
+
+    Schedule findScheduleById(String scheduleId) throws ScheduleNotFoundException;
+    void saveSchedule(Schedule schedule);
+    void updateSchedule(Schedule scheduleToUpdate) throws ScheduleNotFoundException;
+    void deleteSchedule(Schedule scheduleToDelete) throws ScheduleNotFoundException;
 }

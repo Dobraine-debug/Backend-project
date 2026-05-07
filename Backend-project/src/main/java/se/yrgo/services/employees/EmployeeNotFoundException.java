@@ -1,0 +1,15 @@
+package se.yrgo.services.employees;
+
+public class EmployeeNotFoundException extends Exception {
+    private static final long serialVersionUID = 1L;
+
+    public EmployeeNotFoundException(){}
+
+    public EmployeeNotFoundException(String message) {
+        super(message);
+    }
+
+    public EmployeeNotFoundException(String message, Throwable cause) {
+        super(message, cause);
+    }
+}
