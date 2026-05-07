@@ -14,7 +14,7 @@ public interface BookingServiceDao {
     public void updateReservation(Reservation updatedReservation);
 
     public List<Reservation> findAllReservations();
-    public List<Reservation> fintReservationByDate(LocalDate date);
+    public List<Reservation> findReservationByDate(LocalDate date);
     public List<Reservation> findByCustomer(Customer customer);
 
     public List<Table> findAllTables();

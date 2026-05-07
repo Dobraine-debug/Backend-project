@@ -29,7 +29,7 @@ public class BookingServiceDaoJpaImpl implements BookingServiceDao {
     }
 
     @Override
-    public List<Reservation> fintReservationByDate(LocalDate date) {
+    public List<Reservation> findReservationByDate(LocalDate date) {
         return List.of();
     }
 
