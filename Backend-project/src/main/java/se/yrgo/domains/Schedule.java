@@ -12,12 +12,12 @@ public class Schedule {
     private String scheduleId;
     private LocalDate date;
 
-    // Creates a column employee_fk in schema-table (instead of creating a new table)
+    // Creates a column employee_fk in schedule-table (instead of creating a new table)
     @ManyToOne
     @JoinColumn(name="EMPLOYEE_FK")
     private Employee employee;
 
-    // Creates a column table_fk in schema-table (instead of creating a new table)
+    // Creates a column table_fk in schedule-table (instead of creating a new table)
     @ManyToOne
     @JoinColumn(name="TABLE_FK")
     private Table table;
