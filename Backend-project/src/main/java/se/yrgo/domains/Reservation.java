@@ -1,37 +1,51 @@
 package se.yrgo.domains;
 
-import java.time.LocalTime;
+import jakarta.persistence.*;
 
+import java.time.LocalDate;
+
+@Entity
 public class Reservation {
-    private String reservationId;
-    private Customer customer;
-    private String table;
-    private LocalTime startTime;
-    private LocalTime endTime;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
-    public Reservation(String reservationId, Customer customer, String table, LocalTime startTime, LocalTime endTime){
+    private int reservationId;
+    private Session session;
+    private LocalDate date;
+
+    @ManyToOne
+    private Customer customer;
+
+    @ManyToOne
+    private Table table;
+
+    public Reservation(int reservationId, Customer customer, Table table, Session session, LocalDate date){
         this.reservationId = reservationId;
         this.customer = customer;
         this.table = table;
-        this.startTime = startTime;
-        this.endTime = endTime;
+        this.session = session;
+        this.date = date;
     }
 
-    public String getReservationId(){return reservationId;}
-    public Customer getCustomer(){return customer;}
-    public String getTable(){return table;}
-    private LocalTime getStartTime(){return startTime;}
-    private LocalTime getEndTime(){return endTime;}
+    public Reservation() {
 
-    public void setReservationId(String reservationId) {this.reservationId = reservationId;}
+    }
+
+    public int getId() { return id; }
+    public int getReservationId(){return reservationId;}
+    public Customer getCustomer(){return customer;}
+    public Table getTable(){return table;}
+    public Session getSession() { return session; }
+
+    public void setReservationId(int reservationId) {this.reservationId = reservationId;}
     public void setCustomer(Customer customer) {this.customer = customer;}
-    public void setTable(String table) {this.table = table;}
-    public void setStartTime(LocalTime startTime) {this.startTime = startTime;}
-    public void setEndTime(LocalTime endTime) {this.endTime = endTime;}
+    public void setTable(Table table) {this.table = table;}
+    public void setSession(Session session) { this.session = session; }
 
     @Override
     public String toString(){
-        return "Id: " + reservationId + "\n" + customer.getCustomer() + "\nTable: " + table + "\nStart: "
-                + startTime.toString() + "\nEnd: " + endTime.toString();
+        return "Id: " + reservationId + "\n" + customer.getCustomer() + "\n" + "Table: " + table + "\n" + "Session: "
+                + session;
     }
 }
