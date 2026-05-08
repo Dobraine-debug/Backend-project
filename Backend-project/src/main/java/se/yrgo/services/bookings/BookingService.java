@@ -4,7 +4,6 @@ import se.yrgo.domains.Customer;
 import se.yrgo.domains.Reservation;
 import se.yrgo.domains.Session;
 import se.yrgo.domains.Table;
-import se.yrgo.domains.TableStatus;
 
 import java.time.LocalDate;
 import java.util.List;
