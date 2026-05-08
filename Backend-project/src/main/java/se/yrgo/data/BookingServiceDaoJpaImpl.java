@@ -5,6 +5,7 @@ import jakarta.persistence.PersistenceContext;
 import se.yrgo.domains.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class BookingServiceDaoJpaImpl implements BookingServiceDao {
@@ -64,7 +65,22 @@ public class BookingServiceDaoJpaImpl implements BookingServiceDao {
 
     @Override
     public List<Table> findAvailableTables(LocalDate date, Session session, int sizeOfParty) {
-        return List.of();
+        List<Table> tables = em.createQuery("select t from Table as t where t.numberOfSeats >=:sizeOfParty", Table.class).setParameter("sizeOfParty", sizeOfParty).getResultList();
+        List<Table> availableTables = new ArrayList<>();
+        for (Table table : tables) {
+            boolean isBooked = false;
+
+            for (Reservation reservation : table.getReservations()) {
+                if (reservation.getDate().equals(date) && reservation.getSession() == session) {
+                    isBooked = true;
+                    break;
+                }
+            }
+            if (!isBooked) {
+                availableTables.add(table);
+            }
+        }
+        return availableTables;
     }
 
 
