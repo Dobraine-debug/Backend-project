@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface BookingService {
     public Reservation createReservation(Customer customer, Session session, Table table, LocalDate date);
-    public List<Table> getAvailableTables(Session session, LocalDate date, TableStatus status);
+    public List<Table> getAvailableTables(Session session, LocalDate date, int sizeOfParty);
     public Reservation updateReservation(Reservation reservation);
     public void cancelReservation(int id);
 

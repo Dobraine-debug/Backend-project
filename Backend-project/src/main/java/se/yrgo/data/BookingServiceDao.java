@@ -1,23 +1,20 @@
 package se.yrgo.data;
 
-import se.yrgo.domains.Customer;
-import se.yrgo.domains.Reservation;
-import se.yrgo.domains.Table;
-import se.yrgo.domains.TableStatus;
+import se.yrgo.domains.*;
 
 import java.time.LocalDate;
 import java.util.List;
 
 public interface BookingServiceDao {
     public void createReservation(Reservation newReservation);
-    public void cancelReservation(int reservationId);
+    public void cancelReservation(Reservation reservationToCancel);
     public void updateReservation(Reservation updatedReservation);
 
     public List<Reservation> findAllReservations();
     public List<Reservation> findReservationByDate(LocalDate date);
-    public List<Reservation> findByCustomer(Customer customer);
+    public List<Reservation> findByCustomer(String name);
 
     public List<Table> findAllTables();
-    public List<Table> findById(String tableId);
-    public List<Table> findByStatus(TableStatus status);
+    public Table findTableById(String tableId);
+    public List<Table> findAvailableTables(LocalDate date, Session session);
 }

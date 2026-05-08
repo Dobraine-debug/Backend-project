@@ -12,7 +12,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public List<Table> getAvailableTables(Session session, LocalDate date, TableStatus status) {
+    public List<Table> getAvailableTables(Session session, LocalDate date, int sizeOfParty) {
         return List.of();
     }
 

@@ -1,55 +1,71 @@
 package se.yrgo.data;
 
-import se.yrgo.domains.Customer;
-import se.yrgo.domains.Reservation;
-import se.yrgo.domains.Table;
-import se.yrgo.domains.TableStatus;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import se.yrgo.domains.*;
 
 import java.time.LocalDate;
 import java.util.List;
 
 public class BookingServiceDaoJpaImpl implements BookingServiceDao {
+    @PersistenceContext
+    private EntityManager em;
+
     @Override
     public void createReservation(Reservation newReservation) {
-
+        em.persist(newReservation);
     }
 
     @Override
-    public void cancelReservation(int reservationId) {
+    public void cancelReservation(Reservation reservationToCancel) {
+        Reservation reservation = em.find(Reservation.class, reservationToCancel.getId());
+        if (reservation != null) {
+            em.remove(reservation);
+        }
     }
 
     @Override
     public void updateReservation(Reservation updatedReservation) {
+        Reservation originalReservation = em.find(Reservation.class, updatedReservation.getId());
 
+        if (originalReservation != null) {
+            originalReservation.setDate(updatedReservation.getDate());
+            originalReservation.setSession(updatedReservation.getSession());
+            originalReservation.setTable(updatedReservation.getTable());
+            originalReservation.setCustomer(updatedReservation.getCustomer());
+            originalReservation.setSizeOfParty(updatedReservation.getSizeOfParty());
+        }
     }
 
     @Override
     public List<Reservation> findAllReservations() {
-        return List.of();
+        return em.createQuery("select r from Reservation as r").getResultList();
     }
 
     @Override
     public List<Reservation> findReservationByDate(LocalDate date) {
-        return List.of();
+        return em.createQuery("select r from Reservation as r where r.date=:date").getResultList();
     }
 
     @Override
-    public List<Reservation> findByCustomer(Customer customer) {
-        return List.of();
+    public List<Reservation> findByCustomer(String name) {
+        return em.createQuery("select r from Reservation as r where r.customer.name=:name", Reservation.class).setParameter("name", name).getResultList();
     }
 
     @Override
     public List<Table> findAllTables() {
-        return List.of();
+        return em.createQuery("select t from Table as t").getResultList();
     }
 
     @Override
-    public List<Table> findById(String tableId) {
-        return List.of();
+    public Table findTableById(String tableId) {
+        return em.createQuery("select t from Table as t where t.tableId=:tableId", Table.class).setParameter("tableId", tableId).getSingleResult();
     }
 
     @Override
-    public List<Table> findByStatus(TableStatus status) {
+    public List<Table> findAvailableTables(LocalDate date, Session session) {
         return List.of();
     }
+
+
 }
