@@ -16,9 +16,9 @@ public interface EmployeeService {
 
     // Schedule
     List<Schedule> getAllSchedules();
-    List<Schedule> findSchedulesForEmployee(String employeeId) throws EmployeeNotFoundException;
-    List<Schedule> findSchedulesForTable(String tableId);
-    List<Schedule> findSchedulesForDate(LocalDate date);
+    List<Schedule> findSchedulesByEmployee(String employeeId);
+    List<Schedule> findSchedulesByTable(String tableId);
+    List<Schedule> findSchedulesByDate(LocalDate date);
 
     Schedule findScheduleById(String scheduleId) throws ScheduleNotFoundException;
     void saveSchedule(Schedule schedule);

@@ -17,5 +17,13 @@ public interface EmployeeServiceDao {
     void deleteEmployee(Employee employeeToDelete) throws EmployeeNotFoundException;
 
     // Schedule
+    List<Schedule> getAllSchedules();
+    List<Schedule> getSchedulesByEmployee(String employeeId);
+    List<Schedule> getSchedulesByTable(String tableId);
+    List<Schedule> getSchedulesByDate(LocalDate date);
 
+    Schedule getScheduleById(String scheduleId) throws ScheduleNotFoundException;
+    void createSchedule(Schedule schedule) throws IllegalArgumentException;
+    void updateSchedule(Schedule scheduleToUpdate) throws ScheduleNotFoundException;
+    void deleteSchedule(Schedule scheduleToDelete) throws ScheduleNotFoundException;
 }

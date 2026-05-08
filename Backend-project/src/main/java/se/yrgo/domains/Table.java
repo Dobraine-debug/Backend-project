@@ -33,6 +33,11 @@ public class Table {
     public String getTableId() { return tableId; }
     public int getNumberOfSeats() { return numberOfSeats; }
 
+    public void addScheduleForTable(Schedule schedule) {
+        schedules.add(schedule);
+        schedule.setTable(this);
+    }
+
     @Override
     public String toString() {
         return "Table: " + tableId + "\nNumber of seats: " + numberOfSeats;
