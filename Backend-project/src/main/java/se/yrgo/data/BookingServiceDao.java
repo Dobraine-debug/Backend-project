@@ -16,5 +16,5 @@ public interface BookingServiceDao {
 
     public List<Table> findAllTables();
     public Table findTableById(String tableId);
-    public List<Table> findAvailableTables(LocalDate date, Session session);
+    public List<Table> findAvailableTables(LocalDate date, Session session, int sizeOfParty);
 }

@@ -63,7 +63,7 @@ public class BookingServiceDaoJpaImpl implements BookingServiceDao {
     }
 
     @Override
-    public List<Table> findAvailableTables(LocalDate date, Session session) {
+    public List<Table> findAvailableTables(LocalDate date, Session session, int sizeOfParty) {
         return List.of();
     }
 
