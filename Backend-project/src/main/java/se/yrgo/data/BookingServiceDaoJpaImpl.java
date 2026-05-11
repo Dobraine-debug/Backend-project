@@ -2,12 +2,16 @@ package se.yrgo.data;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Repository;
 import se.yrgo.domains.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@Transactional
+@Repository
 public class BookingServiceDaoJpaImpl implements BookingServiceDao {
     @PersistenceContext
     private EntityManager em;
