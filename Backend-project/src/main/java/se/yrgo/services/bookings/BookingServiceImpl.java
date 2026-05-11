@@ -1,6 +1,7 @@
 package se.yrgo.services.bookings;
 
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import se.yrgo.data.BookingServiceDao;
 import se.yrgo.domains.*;
@@ -11,6 +12,7 @@ import java.util.List;
 @Transactional
 @Service
 public class BookingServiceImpl implements BookingService {
+    @Autowired
     private BookingServiceDao dao;
 
     @Override

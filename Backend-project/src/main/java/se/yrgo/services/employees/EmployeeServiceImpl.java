@@ -2,15 +2,16 @@ package se.yrgo.services.employees;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import se.yrgo.data.EmployeeServiceDao;
 import se.yrgo.domains.Employee;
 import se.yrgo.domains.Schedule;
 import se.yrgo.services.bookings.TableNotFoundException;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Service
+@Transactional
 public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     private EmployeeServiceDao dao;
@@ -56,7 +57,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public List<Schedule> findSchedulesByDate(LocalDate date) {
+    public List<Schedule> findSchedulesByDate(String date) {
         return dao.getSchedulesByDate(date);
     }
 

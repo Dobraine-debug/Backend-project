@@ -2,15 +2,13 @@ package se.yrgo.domains;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
-
 @Entity
 public class Schedule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String scheduleId;
-    private LocalDate date;
+    private String date;
 
     // Creates a column employee_fk in schedule-table (instead of creating a new table)
     @ManyToOne
@@ -22,7 +20,7 @@ public class Schedule {
     @JoinColumn(name="TABLE_FK")
     private Table table;
 
-    public Schedule(String scheduleId, Employee employee, Table table, LocalDate date) {
+    public Schedule(String scheduleId, Employee employee, Table table, String date) {
         this.scheduleId = scheduleId;
         this.employee = employee;
         this.table = table;
@@ -42,7 +40,7 @@ public class Schedule {
         return scheduleId;
     }
 
-    public LocalDate getDate() {
+    public String getDate() {
         return date;
     }
 
@@ -58,7 +56,7 @@ public class Schedule {
         this.scheduleId = scheduleId;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

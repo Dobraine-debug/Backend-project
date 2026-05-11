@@ -10,7 +10,6 @@ import se.yrgo.services.bookings.TableNotFoundException;
 import se.yrgo.services.employees.EmployeeNotFoundException;
 import se.yrgo.services.employees.ScheduleNotFoundException;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -26,7 +25,7 @@ public class EmployeeServiceDaoJpaImpl implements EmployeeServiceDao {
     @Override
     public Employee getEmployeeById(String employeeId) throws EmployeeNotFoundException {
         try {
-            return em.createQuery("select employee from Employee as employee where employee.employeeId=:employeeId", Employee.class).setParameter("employeeId", employeeId).getSingleResult();
+            return (Employee) em.createQuery("select employee from Employee as employee where employee.employeeId=:employeeId").setParameter("employeeId", employeeId).getSingleResult();
         } catch (jakarta.persistence.NoResultException e) {
             throw new EmployeeNotFoundException();
         }
@@ -82,7 +81,7 @@ public class EmployeeServiceDaoJpaImpl implements EmployeeServiceDao {
     }
 
     @Override
-    public List<Schedule> getSchedulesByDate(LocalDate date) {
+    public List<Schedule> getSchedulesByDate(String date) {
         return em.createQuery("select schedule from Schedule as schedule where schedule.date=:date")
                 .setParameter("date", date)
                 .getResultList();

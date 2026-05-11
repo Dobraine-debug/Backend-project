@@ -4,7 +4,6 @@ import se.yrgo.domains.Employee;
 import se.yrgo.domains.Schedule;
 import se.yrgo.services.bookings.TableNotFoundException;
 
-import java.time.LocalDate;
 import java.util.List;
 
 public interface EmployeeService {
@@ -19,7 +18,7 @@ public interface EmployeeService {
     List<Schedule> getAllSchedules();
     List<Schedule> findSchedulesByEmployee(String employeeId);
     List<Schedule> findSchedulesByTable(String tableId);
-    List<Schedule> findSchedulesByDate(LocalDate date);
+    List<Schedule> findSchedulesByDate(String date);
 
     Schedule findScheduleById(String scheduleId) throws ScheduleNotFoundException;
     void saveSchedule(Schedule schedule) throws TableNotFoundException, EmployeeNotFoundException;
