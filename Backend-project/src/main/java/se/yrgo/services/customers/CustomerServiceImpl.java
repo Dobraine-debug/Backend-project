@@ -3,15 +3,14 @@ package se.yrgo.services.customers;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import se.yrgo.data.CustomerServiceDao;
+import se.yrgo.data.customers.CustomerServiceDao;
 import se.yrgo.domains.Customer;
 import se.yrgo.domains.Invoice;
 
 import java.util.List;
 
 @Transactional
-@Service
+@Service("customerService")
 public class CustomerServiceImpl implements CustomerService{
     @Autowired
     private CustomerServiceDao dao;
@@ -22,7 +21,7 @@ public class CustomerServiceImpl implements CustomerService{
     }
 
     @Override
-    public Customer findCustomer(String customerId) {
+    public Customer findCustomer(String customerId) throws CustomerNotFoundException {
         return dao.findById(customerId);
     }
 
@@ -32,8 +31,8 @@ public class CustomerServiceImpl implements CustomerService{
     }
 
     @Override
-    public Invoice showInvoice(String invoiceId) {
-        return null;
+    public Invoice showInvoice(String invoiceId) throws InvoiceNotFoundException {
+        return dao.findInvoice(invoiceId);
     }
 
     @Override
@@ -55,13 +54,13 @@ public class CustomerServiceImpl implements CustomerService{
     }
 
     @Override
-    public void removeInvoice(String invoiceId, String customerId) {
+    public void removeInvoice(String invoiceId, String customerId) throws InvoiceNotFoundException, CustomerNotFoundException {
         dao.deleteInvoice(invoiceId, customerId);
     }
 
 
     @Override
-    public void addInvoice(Invoice invoice, String customerId) {
+    public void addInvoice(Invoice invoice, String customerId) throws CustomerNotFoundException {
         dao.addInvoiceToCustomer(invoice, customerId);
     }
 

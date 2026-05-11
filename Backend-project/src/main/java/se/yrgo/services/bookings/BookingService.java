@@ -12,7 +12,7 @@ public interface BookingService {
     public void createReservation(Reservation newReservation);
     public List<RestaurantTable> getAvailableTables(Session session, LocalDate date, int sizeOfParty);
     public Reservation updateReservation(Reservation updatedReservation);
-    public void cancelReservation(Reservation reservationToCancel);
+    public void cancelReservation(int id);
 
     public List<Reservation> getAllReservations();
     public List<Reservation> getReservationsByDate(LocalDate date);

@@ -22,8 +22,8 @@ public class BookingServiceDaoJpaImpl implements BookingServiceDao {
     }
 
     @Override
-    public void cancelReservation(Reservation reservationToCancel) {
-        Reservation reservation = em.find(Reservation.class, reservationToCancel.getId());
+    public void cancelReservation(int id) {
+        Reservation reservation = em.find(Reservation.class, id);
         if (reservation != null) {
             em.remove(reservation);
         }

@@ -36,8 +36,8 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public void cancelReservation(Reservation reservationToCancel) {
-        dao.cancelReservation(reservationToCancel);
+    public void cancelReservation(int id) {
+        dao.cancelReservation(id);
     }
 
     @Override

@@ -2,10 +2,11 @@ package se.yrgo.data;
 
 import se.yrgo.domains.Customer;
 import se.yrgo.domains.Invoice;
+import se.yrgo.services.customers.CustomerNotFoundException;
 import se.yrgo.services.customers.CustomerService;
 
 public class SampleData {
-    public void addData(CustomerService customer){
+    public void addData(CustomerService customer) throws CustomerNotFoundException {
         customer.deleteAll();
         Customer customer1 = new Customer("C101", "David Skansholm",
                 "david@skansholm.com", "0736-230384");

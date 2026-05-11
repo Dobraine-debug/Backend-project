@@ -23,8 +23,7 @@ public class Reservation {
     @ManyToOne
     private RestaurantTable restaurantTable;
 
-    public Reservation(int reservationId, Customer customer, RestaurantTable restaurantTable, Session session, LocalDate date, int sizeOfParty){
-        this.reservationId = reservationId;
+    public Reservation(Customer customer, RestaurantTable restaurantTable, Session session, LocalDate date, int sizeOfParty){
         this.customer = customer;
         this.restaurantTable = restaurantTable;
         this.session = session;
@@ -53,8 +52,7 @@ public class Reservation {
 
     @Override
     public String toString(){
-        return "Reservation ID: " + reservationId +
-                "\nDate: " + date +
+        return "\nDate: " + date +
                 "\nCustomer: " + customer.getName() +
                 "\nTable: " + restaurantTable.getTableId() +
                 "\nSession: " + session.getTime() +

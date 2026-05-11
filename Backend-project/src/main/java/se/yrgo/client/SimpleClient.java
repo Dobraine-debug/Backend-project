@@ -8,7 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 import se.yrgo.data.SampleData;
 import se.yrgo.domains.Customer;
 import se.yrgo.domains.Invoice;
+import se.yrgo.services.customers.CustomerNotFoundException;
 import se.yrgo.services.customers.CustomerService;
+import se.yrgo.services.customers.InvoiceNotFoundException;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -130,6 +132,10 @@ public class SimpleClient {
 
             }
         } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } catch (CustomerNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (InvoiceNotFoundException e) {
             throw new RuntimeException(e);
         } finally {
             container.close();

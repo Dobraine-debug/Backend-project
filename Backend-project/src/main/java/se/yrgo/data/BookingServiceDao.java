@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface BookingServiceDao {
     public void createReservation(Reservation newReservation);
-    public void cancelReservation(Reservation reservationToCancel);
+    public void cancelReservation(int id);
     public Reservation updateReservation(Reservation updatedReservation);
 
     public List<Reservation> findAllReservations();
