@@ -15,7 +15,7 @@ public class Customer {
     private String mail;
     private String telephone;
     @OneToMany(fetch = FetchType.EAGER)
-    private List<Invoice> invoices;
+    private List<Invoice> invoices = new ArrayList<>();
 
     public Customer(){}
 
