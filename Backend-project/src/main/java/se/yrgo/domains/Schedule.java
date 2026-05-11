@@ -2,6 +2,9 @@ package se.yrgo.domains;
 
 import jakarta.persistence.*;
 
+/**
+ * Represents a schedule for an employee and a table. Connected to a specific date.
+ */
 @Entity
 public class Schedule {
     @Id
@@ -11,13 +14,15 @@ public class Schedule {
     private String date;
 
     // Creates a column employee_fk in schedule-table (instead of creating a new table)
+    // Schedule is the owning side of the relationship between Schedule and Employee
     @ManyToOne
-    @JoinColumn(name="EMPLOYEE_FK")
+    @JoinColumn(name = "EMPLOYEE_FK")
     private Employee employee;
 
     // Creates a column table_fk in schedule-table (instead of creating a new table)
+    // Schedule is the owning side of the relationship between Schedule and Table.
     @ManyToOne
-    @JoinColumn(name="TABLE_FK")
+    @JoinColumn(name = "TABLE_FK")
     private RestaurantTable table;
 
     public Schedule(String scheduleId, Employee employee, RestaurantTable table, String date) {
@@ -28,9 +33,7 @@ public class Schedule {
     }
 
     public Schedule() {
-
     }
-
 
     public int getId() {
         return id;

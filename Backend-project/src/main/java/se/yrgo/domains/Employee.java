@@ -5,6 +5,9 @@ import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Employee class represents an employee in a restaurant.
+ */
 @Entity
 public class Employee {
     @Id
@@ -31,6 +34,10 @@ public class Employee {
 
     }
 
+    /**
+     * Adds schedule to the list of an employee. Maintains bidirectional relationship.
+     * @param schedule
+     */
     public void addScheduleForEmployee(Schedule schedule) {
         this.employeeScheduleList.add(schedule);
         schedule.setEmployee(this);

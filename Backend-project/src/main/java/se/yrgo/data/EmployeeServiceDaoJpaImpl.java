@@ -12,6 +12,10 @@ import se.yrgo.services.employees.ScheduleNotFoundException;
 
 import java.util.List;
 
+/**
+ * Implementation for employee and schedule by using JPA. Handles CRUD-operations and other queries for Employee
+ * and Schedule entities.
+ */
 @Repository
 public class EmployeeServiceDaoJpaImpl implements EmployeeServiceDao {
     @PersistenceContext
@@ -98,6 +102,12 @@ public class EmployeeServiceDaoJpaImpl implements EmployeeServiceDao {
         }
     }
 
+    /**
+     * Creates a new schedule for table and employee. Checks first that both employee and table exist.
+     * @param schedule
+     * @throws TableNotFoundException
+     * @throws EmployeeNotFoundException
+     */
     @Override
     public void createSchedule(Schedule schedule) throws TableNotFoundException, EmployeeNotFoundException {
         RestaurantTable restaurantTable = em.find(RestaurantTable.class, schedule.getTable().getId());
