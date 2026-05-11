@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import se.yrgo.data.SampleData;
 import se.yrgo.domains.Customer;
 import se.yrgo.domains.Invoice;
+import se.yrgo.services.bookings.BookingService;
 import se.yrgo.services.customers.CustomerNotFoundException;
 import se.yrgo.services.customers.CustomerService;
 import se.yrgo.services.customers.InvoiceNotFoundException;
@@ -25,13 +26,15 @@ public class SimpleClient {
             Boolean customerCheck = false;
             Boolean invoiceCheck = false;
             CustomerService service = container.getBean(CustomerService.class);
+            BookingService bookingService = container.getBean(BookingService.class);
+            BookingMenu bookingMenu = new BookingMenu(bookingService);
             SampleData data = new SampleData();
             data.addData(service);
             System.out.println("Welcome to the administrative system of Restaurant Backend.");
             Thread.sleep(1000);
             Scanner sc = new Scanner(System.in);
             while(showMenu){
-                System.out.println("Do you want to:" +"\n1: Manage customers" + "\n2: Manage invoices" + "\n3: Exit");
+                System.out.println("Do you want to:" +"\n1: Manage customers" + "\n2: Manage invoices" + "\n3: Exit" + "\n4: Manage bookings");
                 String selection = sc.nextLine();
                 if(selection.equals("1")){
                     customerCheck = true;
@@ -41,6 +44,8 @@ public class SimpleClient {
                 }
                 else if (selection.equals("3")){
                     showMenu = false;
+                } else if (selection.equals("4")) {
+                    bookingMenu.open();
                 }
                 while(customerCheck){
                     System.out.println("Please select action:");
