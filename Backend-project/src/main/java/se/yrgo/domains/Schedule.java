@@ -20,12 +20,12 @@ public class Schedule {
     // Creates a column table_fk in schedule-table (instead of creating a new table)
     @ManyToOne
     @JoinColumn(name="TABLE_FK")
-    private Table table;
+    private RestaurantTable restaurantTable;
 
-    public Schedule(String scheduleId, Employee employee, Table table, LocalDate date) {
+    public Schedule(String scheduleId, Employee employee, RestaurantTable restaurantTable, LocalDate date) {
         this.scheduleId = scheduleId;
         this.employee = employee;
-        this.table = table;
+        this.restaurantTable = restaurantTable;
         this.date = date;
     }
 
@@ -50,8 +50,8 @@ public class Schedule {
         return employee;
     }
 
-    public Table getTable() {
-        return table;
+    public RestaurantTable getTable() {
+        return restaurantTable;
     }
 
     public void setScheduleId(String scheduleId) {
@@ -66,12 +66,12 @@ public class Schedule {
         this.employee = employee;
     }
 
-    public void setTable(Table table) {
-        this.table = table;
+    public void setTable(RestaurantTable restaurantTable) {
+        this.restaurantTable = restaurantTable;
     }
 
     @Override
     public String toString() {
-        return "Schema id: " + scheduleId + ", employee: " + employee + ", tables: " + table + ", date: " + date;
+        return "Schema id: " + scheduleId + ", employee: " + employee + ", tables: " + restaurantTable + ", date: " + date;
     }
 }
