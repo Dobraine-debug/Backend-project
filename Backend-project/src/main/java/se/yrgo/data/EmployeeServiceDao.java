@@ -2,6 +2,7 @@ package se.yrgo.data;
 
 import se.yrgo.domains.Employee;
 import se.yrgo.domains.Schedule;
+import se.yrgo.services.bookings.TableNotFoundException;
 import se.yrgo.services.employees.EmployeeNotFoundException;
 import se.yrgo.services.employees.ScheduleNotFoundException;
 
@@ -23,7 +24,7 @@ public interface EmployeeServiceDao {
     List<Schedule> getSchedulesByDate(LocalDate date);
 
     Schedule getScheduleById(String scheduleId) throws ScheduleNotFoundException;
-    void createSchedule(Schedule schedule) throws IllegalArgumentException;
+    void createSchedule(Schedule schedule) throws TableNotFoundException, EmployeeNotFoundException;
     void updateSchedule(Schedule scheduleToUpdate) throws ScheduleNotFoundException;
     void deleteSchedule(Schedule scheduleToDelete) throws ScheduleNotFoundException;
 }

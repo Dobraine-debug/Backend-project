@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import se.yrgo.domains.Employee;
 import se.yrgo.domains.Schedule;
 import se.yrgo.domains.Table;
+import se.yrgo.services.bookings.TableNotFoundException;
 import se.yrgo.services.employees.EmployeeNotFoundException;
 import se.yrgo.services.employees.ScheduleNotFoundException;
 
@@ -99,7 +100,7 @@ public class EmployeeServiceDaoJpaImpl implements EmployeeServiceDao {
     }
 
     @Override
-    public void createSchedule(Schedule schedule) throws IllegalArgumentException, EmployeeNotFoundException {
+    public void createSchedule(Schedule schedule) throws TableNotFoundException, EmployeeNotFoundException {
         Table table = em.find(Table.class, schedule.getTable().getId());
         Employee employee = em.find(Employee.class, schedule.getEmployee().getId());
 
@@ -107,9 +108,8 @@ public class EmployeeServiceDaoJpaImpl implements EmployeeServiceDao {
             throw new EmployeeNotFoundException();
         }
 
-        // TODO: TableNotFoundException
         if (table == null) {
-            throw new IllegalArgumentException("Table not found");
+            throw new TableNotFoundException();
         }
 
         employee.addScheduleForEmployee(schedule);

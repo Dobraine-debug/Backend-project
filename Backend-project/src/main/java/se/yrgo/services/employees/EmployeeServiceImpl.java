@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import se.yrgo.data.EmployeeServiceDao;
 import se.yrgo.domains.Employee;
 import se.yrgo.domains.Schedule;
+import se.yrgo.services.bookings.TableNotFoundException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -65,7 +66,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public void saveSchedule(Schedule schedule) {
+    public void saveSchedule(Schedule schedule) throws TableNotFoundException, EmployeeNotFoundException {
         dao.createSchedule(schedule);
     }
 
