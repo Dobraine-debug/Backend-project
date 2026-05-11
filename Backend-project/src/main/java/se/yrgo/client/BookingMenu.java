@@ -1,0 +1,136 @@
+package se.yrgo.client;
+
+import org.springframework.cglib.core.Local;
+import se.yrgo.domains.Customer;
+import se.yrgo.domains.Reservation;
+import se.yrgo.domains.RestaurantTable;
+import se.yrgo.domains.Session;
+import se.yrgo.services.bookings.BookingService;
+
+import java.sql.SQLOutput;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Scanner;
+
+public class BookingMenu {
+    private BookingService service;
+    private Scanner scanner;
+
+    public BookingMenu(BookingService service) {
+        this.service = service;
+        this.scanner = new Scanner(System.in);
+    }
+
+    public void open() {
+        boolean showMenu = true;
+
+        while (showMenu) {
+            System.out.println("1. Show reservations\n" +
+                    "2. Add new reservation\n" +
+                    "3. Cancel reservation\n" +
+                    "4. Find reservation\n" +
+                    "5. Back");
+
+            String choice = scanner.nextLine();
+
+            switch (choice) {
+                case "1":
+                    service.getAllReservations().forEach(System.out::println);
+                    break;
+
+                case "2":
+                    service.createReservation(new Reservation());
+                    System.out.println("Enter customer name:");
+                    String name = scanner.nextLine();
+
+                    System.out.println("Enter customer ID (first 2 letters of first and last name, e.g. KALU):");
+                    String customerID = scanner.nextLine();
+
+                    System.out.println("Enter email:");
+                    String email = scanner.nextLine();
+
+                    System.out.println("Enter phone:");
+                    String phone = scanner.nextLine();
+
+                    System.out.println("Enter number of guests:");
+                    int sizeOfParty = Integer.parseInt(scanner.nextLine());
+
+                    System.out.println("Enter date (YYYY-MM-DD):");
+                    LocalDate date = LocalDate.parse(scanner.nextLine());
+
+                    System.out.println("Enter session: ");
+                    Session[] sessions = Session.values();
+
+                    for (int i = 0; i < sessions.length; i++) {
+                        System.out.println((i + 1) + ". " + sessions[i].getTime());
+                    }
+                    int choiceOfSession = Integer.parseInt(scanner.nextLine());
+                    Session session = sessions[choiceOfSession - 1];
+
+                    Customer customer = new Customer(name, customerID, email, phone);
+                    List<RestaurantTable> availableTables = service.getAvailableTables(session, date, sizeOfParty);
+
+                    if (availableTables.isEmpty()) {
+                        System.out.println("No available table.");
+                        break;
+                    }
+                        System.out.println("Available tables:");
+                        for (int i = 0; i < availableTables.size(); i++) {
+                            System.out.println((i + 1) + ": " + availableTables.get(i));
+                    }
+                    System.out.println("Choose an available table:");
+                        int tableChoice = Integer.parseInt(scanner.nextLine()) - 1;
+                        RestaurantTable selectedTable = availableTables.get(tableChoice);
+
+                    Reservation reservation = new Reservation(customer, selectedTable, session, date, sizeOfParty);
+                    service.createReservation(reservation);
+                    break;
+
+                case "3":
+
+                    break;
+
+                case "4":
+                    searchMenu();
+                    break;
+
+                case "5":
+                    showMenu = false;
+                    break;
+            }
+        }
+    }
+
+    private void searchMenu() {
+        boolean searching = true;
+
+        while (searching) {
+            System.out.println(
+                    "1. Find reservations by customer\n" +
+                            "2. Find reservations by date\n" +
+                            "3. Back"
+            );
+
+            String choice = scanner.nextLine();
+
+            switch (choice) {
+                case "1":
+                    System.out.println("Enter customer name:");
+                    String name = scanner.nextLine();
+
+                    service.getReservationByCustomer(name).forEach(System.out::println);
+                    break;
+
+                case "2":
+                    System.out.println("Enter date (YYYY-MM-DD");
+                    LocalDate date = LocalDate.parse(scanner.nextLine());
+                    service.getReservationsByDate(date).forEach(System.out::println);
+                    break;
+
+                case "3":
+                    searching = false;
+                    break;
+            }
+        }
+    }
+}
