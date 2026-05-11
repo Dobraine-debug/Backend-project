@@ -70,8 +70,14 @@ public class CustomerServiceDaoJpaImpl implements CustomerServiceDao{
 
     @Override
     public void purge() {
-        em.createQuery("delete from Invoice").executeUpdate();
-        em.createQuery("delete from Customer").executeUpdate();
+        List<Customer> customers = allCustomers();
+        List<Invoice> invoices = allInvoices();
+        for(Invoice invoice : invoices) {
+            em.remove(invoice);
+        }
+        for(Customer customer : customers){
+            em.remove(customer);
+        }
 
     }
 
