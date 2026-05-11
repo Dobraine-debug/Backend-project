@@ -1,11 +1,15 @@
 package se.yrgo.services.bookings;
 
+import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Service;
 import se.yrgo.data.BookingServiceDao;
 import se.yrgo.domains.*;
 
 import java.time.LocalDate;
 import java.util.List;
 
+@Transactional
+@Service
 public class BookingServiceImpl implements BookingService {
     private BookingServiceDao dao;
 
