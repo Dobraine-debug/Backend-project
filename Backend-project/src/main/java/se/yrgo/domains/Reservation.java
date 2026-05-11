@@ -11,25 +11,21 @@ public class Reservation {
     private int id;
 
     private int reservationId;
-    private LocalDate date;
-    private int sizeOfParty;
-
-    @Enumerated(EnumType.STRING)
     private Session session;
+    private LocalDate date;
 
     @ManyToOne
     private Customer customer;
 
     @ManyToOne
-    private RestaurantTable restaurantTable;
+    private Table table;
 
-    public Reservation(int reservationId, Customer customer, RestaurantTable restaurantTable, Session session, LocalDate date, int sizeOfParty){
+    public Reservation(int reservationId, Customer customer, Table table, Session session, LocalDate date){
         this.reservationId = reservationId;
         this.customer = customer;
-        this.restaurantTable = restaurantTable;
+        this.table = table;
         this.session = session;
         this.date = date;
-        this.sizeOfParty = sizeOfParty;
     }
 
     public Reservation() {
@@ -38,26 +34,18 @@ public class Reservation {
 
     public int getId() { return id; }
     public int getReservationId(){return reservationId;}
-    public Customer getCustomer(){ return customer; }
-    public RestaurantTable getTable(){return restaurantTable;}
+    public Customer getCustomer(){return customer;}
+    public Table getTable(){return table;}
     public Session getSession() { return session; }
-    public LocalDate getDate() { return date; }
-    public int getSizeOfParty() { return sizeOfParty; }
 
     public void setReservationId(int reservationId) {this.reservationId = reservationId;}
     public void setCustomer(Customer customer) {this.customer = customer;}
-    public void setTable(RestaurantTable restaurantTable) {this.restaurantTable = restaurantTable;}
+    public void setTable(Table table) {this.table = table;}
     public void setSession(Session session) { this.session = session; }
-    public void setDate(LocalDate date) { this.date = date; }
-    public void setSizeOfParty(int sizeOfParty) { this.sizeOfParty = sizeOfParty; }
 
     @Override
     public String toString(){
-        return "Reservation ID: " + reservationId +
-                "\nDate: " + date +
-                "\nCustomer: " + customer.getName() +
-                "\nTable: " + restaurantTable.getTableId() +
-                "\nSession: " + session.getTime() +
-                "\nSize of party: " + sizeOfParty;
+        return "Id: " + reservationId + "\n" + customer.getCustomer() + "\n" + "Table: " + table + "\n" + "Session: "
+                + session;
     }
 }
