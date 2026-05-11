@@ -2,6 +2,8 @@ package se.yrgo.domains;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
+
 @Entity
 public class Schedule {
     @Id
@@ -18,9 +20,9 @@ public class Schedule {
     // Creates a column table_fk in schedule-table (instead of creating a new table)
     @ManyToOne
     @JoinColumn(name="TABLE_FK")
-    private Table table;
+    private RestaurantTable table;
 
-    public Schedule(String scheduleId, Employee employee, Table table, String date) {
+    public Schedule(String scheduleId, Employee employee, RestaurantTable table, String date) {
         this.scheduleId = scheduleId;
         this.employee = employee;
         this.table = table;
@@ -48,7 +50,7 @@ public class Schedule {
         return employee;
     }
 
-    public Table getTable() {
+    public RestaurantTable getTable() {
         return table;
     }
 
@@ -64,7 +66,7 @@ public class Schedule {
         this.employee = employee;
     }
 
-    public void setTable(Table table) {
+    public void setTable(RestaurantTable table) {
         this.table = table;
     }
 

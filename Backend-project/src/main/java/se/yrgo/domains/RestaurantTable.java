@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Table {
+public class RestaurantTable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -14,18 +14,18 @@ public class Table {
     private String tableId;
     private int numberOfSeats;
 
-    @OneToMany(mappedBy = "table")
+    @OneToMany(mappedBy = "restaurantTable")
     private List<Schedule> schedules = new ArrayList<>();
 
-    @OneToMany(mappedBy = "table")
+    @OneToMany(mappedBy = "restaurantTable")
     private List<Reservation> reservations = new ArrayList<>();
 
-    public Table(String tableId, int numberOfSeats) {
+    public RestaurantTable(String tableId, int numberOfSeats) {
         this.tableId = tableId;
         this.numberOfSeats = numberOfSeats;
     }
 
-    public Table() { }
+    public RestaurantTable() { }
 
     public List<Reservation> getReservations() { return reservations; }
     public List<Schedule> getSchedules() { return schedules; }

@@ -16,8 +16,8 @@ public class BookingServiceImpl implements BookingService {
     private BookingServiceDao dao;
 
     @Override
-    public void createTable(Table newTable) {
-        dao.createTable(newTable);
+    public void createTable(RestaurantTable newRestaurantTable) {
+        dao.createTable(newRestaurantTable);
     }
 
     @Override
@@ -26,7 +26,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public List<Table> getAvailableTables(Session session, LocalDate date, int sizeOfParty) {
+    public List<RestaurantTable> getAvailableTables(Session session, LocalDate date, int sizeOfParty) {
         return dao.findAvailableTables(date, session, sizeOfParty);
     }
 

@@ -14,9 +14,9 @@ public interface BookingServiceDao {
     public List<Reservation> findReservationByDate(LocalDate date);
     public List<Reservation> findByCustomer(String name);
 
-    public List<Table> findAllTables();
-    public Table findTableById(String tableId);
-    public List<Table> findAvailableTables(LocalDate date, Session session, int sizeOfParty);
+    public List<RestaurantTable> findAllTables();
+    public RestaurantTable findTableById(String tableId);
+    public List<RestaurantTable> findAvailableTables(LocalDate date, Session session, int sizeOfParty);
 
-    void createTable(Table newTable);
+    void createTable(RestaurantTable newRestaurantTable);
 }

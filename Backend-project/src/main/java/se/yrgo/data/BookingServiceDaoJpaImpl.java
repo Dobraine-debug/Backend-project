@@ -59,38 +59,38 @@ public class BookingServiceDaoJpaImpl implements BookingServiceDao {
     }
 
     @Override
-    public List<Table> findAllTables() {
-        return em.createQuery("select t from Table as t", Table.class).getResultList();
+    public List<RestaurantTable> findAllTables() {
+        return em.createQuery("select t from RestaurantTable as t", RestaurantTable.class).getResultList();
     }
 
     @Override
-    public Table findTableById(String tableId) {
-        return em.createQuery("select t from Table as t where t.tableId=:tableId", Table.class).setParameter("tableId", tableId).getSingleResult();
+    public RestaurantTable findTableById(String tableId) {
+        return em.createQuery("select t from RestaurantTable as t where t.tableId=:tableId", RestaurantTable.class).setParameter("tableId", tableId).getSingleResult();
     }
 
     @Override
-    public List<Table> findAvailableTables(LocalDate date, Session session, int sizeOfParty) {
-        List<Table> tables = em.createQuery("select t from Table as t where t.numberOfSeats >=:sizeOfParty", Table.class).setParameter("sizeOfParty", sizeOfParty).getResultList();
-        List<Table> availableTables = new ArrayList<>();
-        for (Table table : tables) {
+    public List<RestaurantTable> findAvailableTables(LocalDate date, Session session, int sizeOfParty) {
+        List<RestaurantTable> restaurantTables = em.createQuery("select t from RestaurantTable as t where t.numberOfSeats >=:sizeOfParty", RestaurantTable.class).setParameter("sizeOfParty", sizeOfParty).getResultList();
+        List<RestaurantTable> availableRestaurantTables = new ArrayList<>();
+        for (RestaurantTable restaurantTable : restaurantTables) {
             boolean isBooked = false;
 
-            for (Reservation reservation : table.getReservations()) {
+            for (Reservation reservation : restaurantTable.getReservations()) {
                 if (reservation.getDate().equals(date) && reservation.getSession() == session) {
                     isBooked = true;
                     break;
                 }
             }
             if (!isBooked) {
-                availableTables.add(table);
+                availableRestaurantTables.add(restaurantTable);
             }
         }
-        return availableTables;
+        return availableRestaurantTables;
     }
 
     @Override
-    public void createTable(Table newTable) {
-        em.persist(newTable);
+    public void createTable(RestaurantTable newRestaurantTable) {
+        em.persist(newRestaurantTable);
     }
 
 

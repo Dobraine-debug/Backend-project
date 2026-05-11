@@ -5,7 +5,7 @@ import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 import se.yrgo.domains.Employee;
 import se.yrgo.domains.Schedule;
-import se.yrgo.domains.Table;
+import se.yrgo.domains.RestaurantTable;
 import se.yrgo.services.bookings.TableNotFoundException;
 import se.yrgo.services.employees.EmployeeNotFoundException;
 import se.yrgo.services.employees.ScheduleNotFoundException;
@@ -100,19 +100,19 @@ public class EmployeeServiceDaoJpaImpl implements EmployeeServiceDao {
 
     @Override
     public void createSchedule(Schedule schedule) throws TableNotFoundException, EmployeeNotFoundException {
-        Table table = em.find(Table.class, schedule.getTable().getId());
+        RestaurantTable restaurantTable = em.find(RestaurantTable.class, schedule.getTable().getId());
         Employee employee = em.find(Employee.class, schedule.getEmployee().getId());
 
         if (employee == null) {
             throw new EmployeeNotFoundException();
         }
 
-        if (table == null) {
+        if (restaurantTable == null) {
             throw new TableNotFoundException();
         }
 
         employee.addScheduleForEmployee(schedule);
-        table.addScheduleForTable(schedule);
+        restaurantTable.addScheduleForTable(schedule);
 
         em.persist(schedule);
     }
