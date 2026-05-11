@@ -5,6 +5,9 @@ import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Employee class represents an employee in a restaurant.
+ */
 @Entity
 public class Employee {
     @Id
@@ -18,18 +21,26 @@ public class Employee {
     // An employee has many schedule entries.
     // Gives a list of all schedules for an employee
     @OneToMany(mappedBy = "employee")
-    private List<Schedule> employeeScheduleList;
+    private List<Schedule> employeeScheduleList = new ArrayList<>();
 
     public Employee(String employeeId, String name, String telephone, String email) {
         this.employeeId = employeeId;
         this.name = name;
         this.telephone = telephone;
         this.email = email;
-        this.employeeScheduleList = new ArrayList<>();
     }
 
     public Employee() {
 
+    }
+
+    /**
+     * Adds schedule to the list of an employee. Maintains bidirectional relationship.
+     * @param schedule
+     */
+    public void addScheduleForEmployee(Schedule schedule) {
+        this.employeeScheduleList.add(schedule);
+        schedule.setEmployee(this);
     }
 
     public List<Schedule> getEmployeeScheduleList() {
