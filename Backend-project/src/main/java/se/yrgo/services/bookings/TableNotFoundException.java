@@ -1,7 +1,7 @@
 package se.yrgo.services.bookings;
 
 public class TableNotFoundException extends RuntimeException {
-    private static final long serialVersionUID = 2L;
+    private static final long serialVersionUID = 3L;
 
     public TableNotFoundException() {}
 
