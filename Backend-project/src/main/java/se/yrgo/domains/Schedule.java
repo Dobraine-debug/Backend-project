@@ -2,8 +2,6 @@ package se.yrgo.domains;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
-
 @Entity
 public class Schedule {
     @Id
