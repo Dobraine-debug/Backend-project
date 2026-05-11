@@ -14,7 +14,7 @@ public class RestaurantTable {
     private String tableId;
     private int numberOfSeats;
 
-    @OneToMany(mappedBy = "restaurantTable")
+    @OneToMany(mappedBy = "table")
     private List<Schedule> schedules = new ArrayList<>();
 
     @OneToMany(mappedBy = "restaurantTable")
