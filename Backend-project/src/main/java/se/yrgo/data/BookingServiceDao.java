@@ -8,7 +8,7 @@ import java.util.List;
 public interface BookingServiceDao {
     public void createReservation(Reservation newReservation);
     public void cancelReservation(Reservation reservationToCancel);
-    public void updateReservation(Reservation updatedReservation);
+    public Reservation updateReservation(Reservation updatedReservation);
 
     public List<Reservation> findAllReservations();
     public List<Reservation> findReservationByDate(LocalDate date);
@@ -17,4 +17,6 @@ public interface BookingServiceDao {
     public List<Table> findAllTables();
     public Table findTableById(String tableId);
     public List<Table> findAvailableTables(LocalDate date, Session session, int sizeOfParty);
+
+    void createTable(Table newTable);
 }

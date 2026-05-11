@@ -1,43 +1,51 @@
 package se.yrgo.services.bookings;
 
+import se.yrgo.data.BookingServiceDao;
 import se.yrgo.domains.*;
 
 import java.time.LocalDate;
 import java.util.List;
 
 public class BookingServiceImpl implements BookingService {
+    private BookingServiceDao dao;
+
     @Override
-    public Reservation createReservation(Customer customer, Session session, Table table, LocalDate date) {
-        return null;
+    public void createTable(Table newTable) {
+        dao.createTable(newTable);
+    }
+
+    @Override
+    public void createReservation(Reservation newReservation) {
+        dao.createReservation(newReservation);
     }
 
     @Override
     public List<Table> getAvailableTables(Session session, LocalDate date, int sizeOfParty) {
-        return List.of();
+        return dao.findAvailableTables(date, session, sizeOfParty);
     }
 
     @Override
-    public Reservation updateReservation(Reservation reservation) {
-        return null;
+    public Reservation updateReservation(Reservation updatedReservation) {
+        return dao.updateReservation(updatedReservation);
     }
 
     @Override
-    public void cancelReservation(int id) {
-
+    public void cancelReservation(Reservation reservationToCancel) {
+        dao.cancelReservation(reservationToCancel);
     }
 
     @Override
     public List<Reservation> getAllReservations() {
-        return List.of();
+        return dao.findAllReservations();
     }
 
     @Override
     public List<Reservation> getReservationsByDate(LocalDate date) {
-        return List.of();
+        return dao.findReservationByDate(date);
     }
 
     @Override
-    public List<Reservation> getReservationByCustomer(Customer customer) {
-        return List.of();
+    public List<Reservation> getReservationByCustomer(String name) {
+        return dao.findByCustomer(name);
     }
 }

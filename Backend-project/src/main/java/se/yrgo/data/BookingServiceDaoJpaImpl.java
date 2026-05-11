@@ -26,7 +26,7 @@ public class BookingServiceDaoJpaImpl implements BookingServiceDao {
     }
 
     @Override
-    public void updateReservation(Reservation updatedReservation) {
+    public Reservation updateReservation(Reservation updatedReservation) {
         Reservation originalReservation = em.find(Reservation.class, updatedReservation.getId());
 
         if (originalReservation != null) {
@@ -36,16 +36,17 @@ public class BookingServiceDaoJpaImpl implements BookingServiceDao {
             originalReservation.setCustomer(updatedReservation.getCustomer());
             originalReservation.setSizeOfParty(updatedReservation.getSizeOfParty());
         }
+        return originalReservation;
     }
 
     @Override
     public List<Reservation> findAllReservations() {
-        return em.createQuery("select r from Reservation as r").getResultList();
+        return em.createQuery("select r from Reservation as r", Reservation.class).getResultList();
     }
 
     @Override
     public List<Reservation> findReservationByDate(LocalDate date) {
-        return em.createQuery("select r from Reservation as r where r.date=:date").getResultList();
+        return em.createQuery("select r from Reservation as r where r.date=:date", Reservation.class).setParameter("date", date).getResultList();
     }
 
     @Override
@@ -55,7 +56,7 @@ public class BookingServiceDaoJpaImpl implements BookingServiceDao {
 
     @Override
     public List<Table> findAllTables() {
-        return em.createQuery("select t from Table as t").getResultList();
+        return em.createQuery("select t from Table as t", Table.class).getResultList();
     }
 
     @Override
@@ -81,6 +82,11 @@ public class BookingServiceDaoJpaImpl implements BookingServiceDao {
             }
         }
         return availableTables;
+    }
+
+    @Override
+    public void createTable(Table newTable) {
+        em.persist(newTable);
     }
 
 
