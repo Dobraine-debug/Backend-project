@@ -30,6 +30,10 @@ public class Customer {
         invoices.add(invoice);
     }
 
+    public void removeInvoice(Invoice invoice){
+        invoices.remove(invoice);
+    }
+
     public String getCustomer(){
         return "Id: " + customerId + " Name: " + name + " Mail: " + mail + " Telephone: " + telephone;
     }

@@ -32,6 +32,11 @@ public class CustomerServiceImpl implements CustomerService{
     }
 
     @Override
+    public Invoice showInvoice(String invoiceId) {
+        return null;
+    }
+
+    @Override
     public List<Invoice> findInvoices(String customerId) {
         List<Invoice> invoices =  dao.getInvoicesByCustomer(customerId);
         return invoices;
@@ -50,13 +55,18 @@ public class CustomerServiceImpl implements CustomerService{
     }
 
     @Override
-    public void removeInvoice(String invoiceId) {
-        dao.deleteInvoice(invoiceId);
-
+    public void removeInvoice(String invoiceId, String customerId) {
+        dao.deleteInvoice(invoiceId, customerId);
     }
+
 
     @Override
     public void addInvoice(Invoice invoice, String customerId) {
         dao.addInvoiceToCustomer(invoice, customerId);
+    }
+
+    @Override
+    public void deleteAll() {
+        dao.purge();
     }
 }

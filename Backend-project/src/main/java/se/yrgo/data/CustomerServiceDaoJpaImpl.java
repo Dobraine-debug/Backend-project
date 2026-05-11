@@ -39,6 +39,13 @@ public class CustomerServiceDaoJpaImpl implements CustomerServiceDao{
     }
 
     @Override
+    public Invoice findInvoice(String invoiceId) {
+        Invoice invoice = (Invoice) em.createQuery("select invoice from Invoice as invoice where invoice.invoiceId=:invoiceId")
+                .setParameter("invoiceId", invoiceId).getSingleResult();
+        return invoice;
+    }
+
+    @Override
     public void addInvoiceToCustomer(Invoice invoice, String customerId) {
         Customer customer = (Customer) em.createQuery("select customer from Customer as customer " +
                         "where customer.customerId=:customerId")
@@ -62,10 +69,21 @@ public class CustomerServiceDaoJpaImpl implements CustomerServiceDao{
     }
 
     @Override
-    public void deleteInvoice(String invoiceId) {
+    public void purge() {
+        em.createQuery("delete from Invoice").executeUpdate();
+        em.createQuery("delete from Customer").executeUpdate();
+
+    }
+
+    @Override
+    public void deleteInvoice(String invoiceId, String customerId) {
         Invoice invoiceToBeDeleted = (Invoice) em.createQuery("select invoice from Invoice as invoice " +
-                "where invoice.invoiceId=:invoiceId").setParameter("invoiceId", invoiceId)
+                        "where invoice.invoiceId=:invoiceId").setParameter("invoiceId", invoiceId)
                 .getSingleResult();
+        Customer customer = (Customer) em.createQuery("select customer from Customer as customer where customer.customerId=:customerId")
+                .setParameter("customerId", customerId).getSingleResult();
+        customer.removeInvoice(invoiceToBeDeleted);
+        em.merge(customer);
         em.remove(invoiceToBeDeleted);
 
     }

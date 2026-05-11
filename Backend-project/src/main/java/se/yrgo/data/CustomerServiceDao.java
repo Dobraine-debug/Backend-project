@@ -8,9 +8,12 @@ public interface CustomerServiceDao {
     public Customer findById(String customerId);
     public List<Invoice> allInvoices();
     public List<Invoice> getInvoicesByCustomer(String customerId);
+    public Invoice findInvoice(String invoiceId);
     public void addInvoiceToCustomer(Invoice invoice, String customerId);
     public void createCustomer(Customer newCustomer);
     public void createInvoice(Invoice newInvoice);
-    public void deleteInvoice(String invoiceId);
+    public void deleteInvoice(String invoiceId, String customerId);
+    public void purge();
 
 }
+
