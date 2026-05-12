@@ -71,7 +71,7 @@ public class BookingMenu {
                         Session[] sessions = Session.values();
 
                         for (int i = 0; i < sessions.length; i++) {
-                            System.out.println((i + 1) + ". " + sessions[i].getTime());
+                            System.out.println("[" + (i + 1) + "]: " + sessions[i].getTime());
                         }
                         int choiceOfSession = Integer.parseInt(scanner.nextLine());
                         if (choiceOfSession < 1 || choiceOfSession > sessions.length) {
@@ -90,7 +90,7 @@ public class BookingMenu {
                         }
                         System.out.println("Available tables:");
                         for (int i = 0; i < availableTables.size(); i++) {
-                            System.out.println((i + 1) + ": " + availableTables.get(i));
+                            System.out.println("[" + (i + 1) + "]:" + availableTables.get(i) + "\n");
                         }
                         System.out.println("Choose an available table:");
                         int tableChoice = Integer.parseInt(scanner.nextLine()) - 1;
@@ -116,7 +116,7 @@ public class BookingMenu {
 
                 case "3":
                     System.out.println("Enter customer name:");
-                    String customerName = scanner.nextLine().toLowerCase();
+                    String customerName = scanner.nextLine();
                     List<Reservation> allReservationsMadeByCustomer = bookingService.getReservationByCustomer(customerName);
                     if (allReservationsMadeByCustomer.isEmpty()) {
                         System.out.println("No reservations found.");
@@ -124,7 +124,7 @@ public class BookingMenu {
                     }
                     System.out.println("Reservations:");
                     for (int i = 0; i < allReservationsMadeByCustomer.size(); i++) {
-                        System.out.println(i + 1 + ". " + allReservationsMadeByCustomer.get(i));
+                        System.out.println("[" + (i + 1) + "]: " + allReservationsMadeByCustomer.get(i));
                     }
                     System.out.println("Choose reservation to cancel: ");
                     int reservationToCancel = Integer.parseInt(scanner.nextLine()) - 1;
@@ -159,7 +159,7 @@ public class BookingMenu {
 
                     System.out.println("Reservations: ");
                     for (int i = 0; i < listOfReservationsToUpdate.size(); i++) {
-                        System.out.println(i + 1 + ". " + listOfReservationsToUpdate.get(i));
+                        System.out.println("[" + (i + 1) + "]: " + listOfReservationsToUpdate.get(i));
                     }
 
                     System.out.println("Choose reservation to update: ");
@@ -195,7 +195,7 @@ public class BookingMenu {
 
                                     selectedReservationToUpdate.setDate(newDate);
                                     bookingService.updateReservation(selectedReservationToUpdate);
-                                    System.out.println("Reservation" + selectedReservationToUpdate.getId() + " made by " + selectedReservationToUpdate.getCustomer().getName() + " updated. New date: " + newDate);
+                                    System.out.println("Reservation " + selectedReservationToUpdate.getId() + " made by " + selectedReservationToUpdate.getCustomer().getName() + " updated. New date: " + newDate);
 
                                 } catch (DateTimeException e) {
                                     System.out.println("Invalid date format. Use YYYY-MM-DD");
@@ -235,7 +235,7 @@ public class BookingMenu {
                                 Session[] changeSession = Session.values();
                                 System.out.println("New session: ");
                                 for (int i = 0; i < changeSession.length; i++) {
-                                    System.out.println((i + 1) + ". " + changeSession[i].getTime());
+                                    System.out.println("[" + (i + 1) + "]: " + changeSession[i].getTime());
                                 }
                                 try {
                                     int choiceOfNewSession = Integer.parseInt(scanner.nextLine());
