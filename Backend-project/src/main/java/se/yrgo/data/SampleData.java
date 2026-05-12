@@ -1,6 +1,5 @@
 package se.yrgo.data;
 
-import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import se.yrgo.domains.*;
@@ -8,13 +7,19 @@ import se.yrgo.services.bookings.BookingService;
 import se.yrgo.services.customers.CustomerNotFoundException;
 import se.yrgo.services.customers.CustomerService;
 import se.yrgo.services.employees.EmployeeService;
+import java.time.LocalDate;
 
 @Component
 @Transactional
+
+
 public class SampleData {
     public void addData(CustomerService customer, EmployeeService employeeService, BookingService bookingService) throws CustomerNotFoundException {
         customer.deleteAll();
         employeeService.deleteAll();
+        bookingService.deleteAll();
+
+
         bookingService.deleteAll();
         Customer customer1 = new Customer("DASK", "David Skansholm",
                 "david@skansholm.com", "0736-230384");
@@ -102,5 +107,23 @@ public class SampleData {
         employeeService.saveSchedule(schedule12);
         employeeService.saveSchedule(schedule13);
         employeeService.saveSchedule(schedule14);
+
+        // Example reservation 2026-05-12 & 2026-05-13
+        Reservation reservation1 = new Reservation(customer1, table1, Session.FIRST_SESSION, LocalDate.of(2026, 5, 13), 2);
+        Reservation reservation2 = new Reservation(customer2, table2, Session.FIRST_SESSION, LocalDate.of(2026, 5, 13), 2);
+        Reservation reservation3 = new Reservation(customer3, table3, Session.SECOND_SESSION, LocalDate.of(2026, 5, 13), 3);
+        Reservation reservation4 = new Reservation(customer4, table4, Session.SECOND_SESSION, LocalDate.of(2026, 5, 13), 4);
+        Reservation reservation5 = new Reservation(customer5, table5, Session.THIRD_SESSION, LocalDate.of(2026, 5, 13), 2);
+
+        Reservation reservation6 = new Reservation(customer1, table6, Session.THIRD_SESSION, LocalDate.of(2026, 5, 12), 5);
+        Reservation reservation7 = new Reservation(customer2, table7, Session.SECOND_SESSION, LocalDate.of(2026, 5, 12), 6);
+
+        bookingService.createReservation(reservation1);
+        bookingService.createReservation(reservation2);
+        bookingService.createReservation(reservation3);
+        bookingService.createReservation(reservation4);
+        bookingService.createReservation(reservation5);
+        bookingService.createReservation(reservation6);
+        bookingService.createReservation(reservation7);
     }
 }

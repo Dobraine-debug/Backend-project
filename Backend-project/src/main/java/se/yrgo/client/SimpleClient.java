@@ -23,11 +23,10 @@ import java.util.Scanner;
 public class SimpleClient {
     public static void main(String[] args) {
         ClassPathXmlApplicationContext container = new ClassPathXmlApplicationContext("application.xml");
-        boolean showMenu = true;
-        boolean customerCheck = false;
-        boolean invoiceCheck = false;
         try {
-
+            Boolean showMenu = true;
+            Boolean customerCheck = false;
+            Boolean invoiceCheck = false;
 
             CustomerService service = container.getBean(CustomerService.class);
             BookingService bookingService = container.getBean(BookingService.class);
@@ -35,7 +34,7 @@ public class SimpleClient {
 
             BookingMenu bookingMenu = new BookingMenu(bookingService, service);
             EmployeeMenu employeeMenu = new EmployeeMenu(employeeService, bookingService);
-            SampleData data = container.getBean(SampleData.class);
+            SampleData data = new SampleData();
             data.addData(service, employeeService, bookingService);
 
             System.out.println("Welcome to the administrative system of Restaurant Backend.");
@@ -43,18 +42,17 @@ public class SimpleClient {
             Scanner sc = new Scanner(System.in);
 
             while (showMenu) {
-                System.out.println("Do you want to:" + "\n1: Manage customers" + "\n2: Manage invoices" +  "\n3: Manage bookings" + "\n4: Manage employees and schedules" + "\n5: Exit");
+                System.out.println("Do you want to:" + "\n1: Manage customers" + "\n2: Manage invoices" + "\n3: Manage bookings" + "\n4: Manage employees and schedules" + "\n5: Exit");
                 String selection = sc.nextLine();
                 if (selection.equals("1")) {
                     customerCheck = true;
                 } else if (selection.equals("2")) {
                     invoiceCheck = true;
-                }  else if (selection.equals("3")) {
+                } else if (selection.equals("3")) {
                     bookingMenu.open();
                 } else if (selection.equals("4")) {
                     employeeMenu.showEmployeeMainMenu();
-                }
-                else if (selection.equals("5")) {
+                } else if (selection.equals("5")) {
                     showMenu = false;
                 }
 

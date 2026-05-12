@@ -3,7 +3,7 @@ package se.yrgo.services.employees;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import se.yrgo.data.EmployeeServiceDao;
+import se.yrgo.data.employees.EmployeeServiceDao;
 import se.yrgo.domains.Employee;
 import se.yrgo.domains.Schedule;
 import se.yrgo.services.bookings.TableNotFoundException;
@@ -28,7 +28,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public void saveEmployee(Employee employee) {
+    public void saveEmployee(Employee employee) throws DublicatedEmployeeIdException {
         dao.createEmployee(employee);
     }
 
@@ -68,7 +68,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public void saveSchedule(Schedule schedule) throws TableNotFoundException, EmployeeNotFoundException {
+    public void saveSchedule(Schedule schedule) throws TableNotFoundException, EmployeeNotFoundException, DublicatedScheduleIdException {
         dao.createSchedule(schedule);
     }
 

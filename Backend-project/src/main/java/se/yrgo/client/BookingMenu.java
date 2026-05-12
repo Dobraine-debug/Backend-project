@@ -29,7 +29,7 @@ public class BookingMenu {
         boolean showMenu = true;
 
         while (showMenu) {
-            System.out.println("1. Show reservations\n" +
+            System.out.println("\n1. Show reservations\n" +
                     "2. Add new reservation\n" +
                     "3. Cancel reservation\n" +
                     "4. Find reservation\n" +
@@ -169,7 +169,7 @@ public class BookingMenu {
 
                     while (update) {
                         System.out.println(
-                                "1. Update date of reservation\n" +
+                                "\n1. Update date of reservation\n" +
                                         "2. Update number of guests\n" +
                                         "3. Update session\n" +
                                         "4. Show reservation\n" +
@@ -290,7 +290,7 @@ public class BookingMenu {
 
         while (searching) {
             System.out.println(
-                    "1. Find reservations by customer\n" +
+                    "\n1. Find reservations by customer\n" +
                             "2. Find reservations by date\n" +
                             "3. Back"
             );
@@ -302,7 +302,12 @@ public class BookingMenu {
                     System.out.println("Enter customer name:");
                     String name = scanner.nextLine();
 
-                    bookingService.getReservationByCustomer(name).forEach(System.out::println);
+                    List<Reservation> customerReservations = bookingService.getReservationByCustomer(name);
+                    if (customerReservations.isEmpty()) {
+                        System.out.println("Customer not found.");
+                    } else {
+                        customerReservations.forEach(System.out::println);
+                    }
                     break;
 
                 case "2":
