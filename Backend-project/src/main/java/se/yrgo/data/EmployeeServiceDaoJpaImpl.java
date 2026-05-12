@@ -3,6 +3,7 @@ package se.yrgo.data;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import se.yrgo.domains.Employee;
 import se.yrgo.domains.Schedule;
 import se.yrgo.domains.RestaurantTable;
@@ -16,6 +17,7 @@ import java.util.List;
  * Implementation for employee and schedule by using JPA. Handles CRUD-operations and other queries for Employee
  * and Schedule entities.
  */
+@Transactional
 @Repository
 public class EmployeeServiceDaoJpaImpl implements EmployeeServiceDao {
     @PersistenceContext

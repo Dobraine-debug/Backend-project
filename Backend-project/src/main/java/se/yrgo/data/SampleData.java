@@ -1,26 +1,30 @@
 package se.yrgo.data;
 
+import jakarta.persistence.PersistenceContext;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import se.yrgo.domains.*;
 import se.yrgo.services.bookings.BookingService;
 import se.yrgo.services.customers.CustomerNotFoundException;
 import se.yrgo.services.customers.CustomerService;
 import se.yrgo.services.employees.EmployeeService;
 
+@Component
+@Transactional
 public class SampleData {
     public void addData(CustomerService customer, EmployeeService employeeService, BookingService bookingService) throws CustomerNotFoundException {
         customer.deleteAll();
         employeeService.deleteAll();
-        // bookingService.deleteAll();
-
-        Customer customer1 = new Customer("C101", "David Skansholm",
+        bookingService.deleteAll();
+        Customer customer1 = new Customer("DASK", "David Skansholm",
                 "david@skansholm.com", "0736-230384");
-        Customer customer2 = new Customer("C102", "Erik Granqvist",
+        Customer customer2 = new Customer("ERGR", "Erik Granqvist",
                 "granqvist@gmail.com", "0735-190310");
-        Customer customer3 = new Customer("C103", "Joel Fridh",
+        Customer customer3 = new Customer("JOFR", "Joel Fridh",
                 "fridh@gmail.com", "0777-160952");
-        Customer customer4 = new Customer("C104", "Hanna Haglund",
+        Customer customer4 = new Customer("HAHA", "Hanna Haglund",
                 "haglund@gmail.com", "0765-329218");
-        Customer customer5 = new Customer("C105", "Josefina Runnquist",
+        Customer customer5 = new Customer("JORU", "Josefina Runnquist",
                 "runnquist@gmail.com", "0775-200986");
         Invoice invoice1 = new Invoice("I101", 300);
         Invoice invoice2 = new Invoice("I102", 250);

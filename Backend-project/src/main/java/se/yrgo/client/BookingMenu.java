@@ -1,25 +1,29 @@
 package se.yrgo.client;
 
-import org.springframework.cglib.core.Local;
 import se.yrgo.domains.Customer;
 import se.yrgo.domains.Reservation;
 import se.yrgo.domains.RestaurantTable;
 import se.yrgo.domains.Session;
 import se.yrgo.services.bookings.BookingService;
+import se.yrgo.services.customers.CustomerService;
 
-import java.sql.SQLOutput;
+import java.time.DateTimeException;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Scanner;
 
 public class BookingMenu {
-    private BookingService service;
+    private BookingService bookingService;
     private Scanner scanner;
+    private CustomerService service;
 
-    public BookingMenu(BookingService service) {
-        this.service = service;
+    public BookingMenu(BookingService bookingService, CustomerService service) {
+        this.bookingService = bookingService;
         this.scanner = new Scanner(System.in);
+        this.service = service;
     }
+
 
     public void open() {
         boolean showMenu = true;
@@ -29,65 +33,110 @@ public class BookingMenu {
                     "2. Add new reservation\n" +
                     "3. Cancel reservation\n" +
                     "4. Find reservation\n" +
-                    "5. Back");
+                    "5. Update reservation\n" +
+                    "6. Back");
 
             String choice = scanner.nextLine();
 
             switch (choice) {
                 case "1":
-                    service.getAllReservations().forEach(System.out::println);
+                    bookingService.getAllReservations().forEach(System.out::println);
                     break;
 
                 case "2":
-                    service.createReservation(new Reservation());
-                    System.out.println("Enter customer name:");
-                    String name = scanner.nextLine();
+                    try {
+                        System.out.println("Enter customer name:");
+                        String name = scanner.nextLine();
 
-                    System.out.println("Enter customer ID (first 2 letters of first and last name, e.g. KALU):");
-                    String customerID = scanner.nextLine();
+                        System.out.println("Enter customer ID (first 2 letters of first and last name, e.g. KALU):");
+                        String customerID = scanner.nextLine();
 
-                    System.out.println("Enter email:");
-                    String email = scanner.nextLine();
+                        System.out.println("Enter email:");
+                        String email = scanner.nextLine();
 
-                    System.out.println("Enter phone:");
-                    String phone = scanner.nextLine();
+                        System.out.println("Enter phone:");
+                        String phone = scanner.nextLine();
 
-                    System.out.println("Enter number of guests:");
-                    int sizeOfParty = Integer.parseInt(scanner.nextLine());
+                        System.out.println("Enter number of guests:");
+                        int sizeOfParty = Integer.parseInt(scanner.nextLine());
+                        if (sizeOfParty <= 0) {
+                            System.out.println("Number of guests must be greater than 0.");
+                            break;
+                        }
 
-                    System.out.println("Enter date (YYYY-MM-DD):");
-                    LocalDate date = LocalDate.parse(scanner.nextLine());
+                        System.out.println("Enter date (YYYY-MM-DD):");
+                        LocalDate date = LocalDate.parse(scanner.nextLine());
 
-                    System.out.println("Enter session: ");
-                    Session[] sessions = Session.values();
+                        System.out.println("Enter session: ");
+                        Session[] sessions = Session.values();
 
-                    for (int i = 0; i < sessions.length; i++) {
-                        System.out.println((i + 1) + ". " + sessions[i].getTime());
-                    }
-                    int choiceOfSession = Integer.parseInt(scanner.nextLine());
-                    Session session = sessions[choiceOfSession - 1];
+                        for (int i = 0; i < sessions.length; i++) {
+                            System.out.println((i + 1) + ". " + sessions[i].getTime());
+                        }
+                        int choiceOfSession = Integer.parseInt(scanner.nextLine());
+                        if (choiceOfSession < 1 || choiceOfSession > sessions.length) {
+                            System.out.println("Invalid choice of session.");
+                            break;
+                        }
+                        Session session = sessions[choiceOfSession - 1];
 
-                    Customer customer = new Customer(name, customerID, email, phone);
-                    List<RestaurantTable> availableTables = service.getAvailableTables(session, date, sizeOfParty);
+                        Customer customer = new Customer(customerID, name, email, phone);
+                        service.newCustomer(customer);
+                        List<RestaurantTable> availableTables = bookingService.getAvailableTables(session, date, sizeOfParty);
 
-                    if (availableTables.isEmpty()) {
-                        System.out.println("No available table.");
-                        break;
-                    }
+                        if (availableTables.isEmpty()) {
+                            System.out.println("No available table.");
+                            break;
+                        }
                         System.out.println("Available tables:");
                         for (int i = 0; i < availableTables.size(); i++) {
                             System.out.println((i + 1) + ": " + availableTables.get(i));
-                    }
-                    System.out.println("Choose an available table:");
+                        }
+                        System.out.println("Choose an available table:");
                         int tableChoice = Integer.parseInt(scanner.nextLine()) - 1;
+
+                        if (tableChoice < 0 || tableChoice >= availableTables.size()) {
+                            System.out.println("Invalid choice of table.");
+                            break;
+                        }
                         RestaurantTable selectedTable = availableTables.get(tableChoice);
 
-                    Reservation reservation = new Reservation(customer, selectedTable, session, date, sizeOfParty);
-                    service.createReservation(reservation);
+                        Reservation reservation = new Reservation(customer, selectedTable, session, date, sizeOfParty);
+                        bookingService.createReservation(reservation);
+                        System.out.println("New reservation created.");
+
+                    } catch (NumberFormatException e) {
+                        System.out.println("Enter a valid number.");
+                    } catch (DateTimeParseException e) {
+                        System.out.println("Invalid date format.");
+                    } catch (Exception e) {
+                        System.out.println("Something went wrong: " + e.getMessage());
+                    }
                     break;
 
                 case "3":
+                    System.out.println("Enter customer name:");
+                    String customerName = scanner.nextLine().toLowerCase();
+                    List<Reservation> allReservationsMadeByCustomer = bookingService.getReservationByCustomer(customerName);
+                    if (allReservationsMadeByCustomer.isEmpty()) {
+                        System.out.println("No reservations found.");
+                        break;
+                    }
+                    System.out.println("Reservations:");
+                    for (int i = 0; i < allReservationsMadeByCustomer.size(); i++) {
+                        System.out.println(i + 1 + ". " + allReservationsMadeByCustomer.get(i));
+                    }
+                    System.out.println("Choose reservation to cancel: ");
+                    int reservationToCancel = Integer.parseInt(scanner.nextLine()) - 1;
 
+                    Reservation selectedReservation = allReservationsMadeByCustomer.get(reservationToCancel);
+                    bookingService.cancelReservation(selectedReservation.getId());
+                    System.out.println(
+                            "Reservation " +
+                                    selectedReservation.getId() +
+                                    " made by " +
+                                    selectedReservation.getCustomer().getName() +
+                                    " cancelled");
                     break;
 
                 case "4":
@@ -95,6 +144,141 @@ public class BookingMenu {
                     break;
 
                 case "5":
+                    boolean update = true;
+                    System.out.println("Update reservation\n");
+
+                    System.out.println("Enter customer name:");
+                    String reservationToUpdate = scanner.nextLine();
+
+                    List<Reservation> listOfReservationsToUpdate = bookingService.getReservationByCustomer(reservationToUpdate);
+
+                    if (listOfReservationsToUpdate.isEmpty()) {
+                        System.out.println("No reservations found.");
+                        break;
+                    }
+
+                    System.out.println("Reservations: ");
+                    for (int i = 0; i < listOfReservationsToUpdate.size(); i++) {
+                        System.out.println(i + 1 + ". " + listOfReservationsToUpdate.get(i));
+                    }
+
+                    System.out.println("Choose reservation to update: ");
+                    int choiceReservationToUpdate = Integer.parseInt(scanner.nextLine()) - 1;
+
+                    Reservation selectedReservationToUpdate = listOfReservationsToUpdate.get(choiceReservationToUpdate);
+
+                    while (update) {
+                        System.out.println(
+                                "1. Update date of reservation\n" +
+                                        "2. Update number of guests\n" +
+                                        "3. Update session\n" +
+                                        "4. Show reservation\n" +
+                                        "5. Exit");
+
+                        String fieldToUpdate = scanner.nextLine();
+
+                        switch (fieldToUpdate) {
+                            case "1":
+                                System.out.println("New date (YYYY-MM-DD): ");
+                                try {
+                                    LocalDate newDate = LocalDate.parse(scanner.nextLine());
+
+                                    List<RestaurantTable> availableTables = bookingService.getAvailableTables(
+                                            selectedReservationToUpdate.getSession(),
+                                            newDate,
+                                            selectedReservationToUpdate.getSizeOfParty());
+
+                                    if (availableTables.isEmpty()) {
+                                        System.out.println("No available tables for " + newDate);
+                                        break;
+                                    }
+
+                                    selectedReservationToUpdate.setDate(newDate);
+                                    bookingService.updateReservation(selectedReservationToUpdate);
+                                    System.out.println("Reservation" + selectedReservationToUpdate.getId() + " made by " + selectedReservationToUpdate.getCustomer().getName() + " updated. New date: " + newDate);
+
+                                } catch (DateTimeException e) {
+                                    System.out.println("Invalid date format. Use YYYY-MM-DD");
+                                }
+                                break;
+
+                            case "2":
+                                System.out.println("New number of guests: ");
+                                try {
+                                    int newSizeOfParty = Integer.parseInt(scanner.nextLine());
+                                    if (newSizeOfParty <= 0) {
+                                        System.out.println("Number of guests must be greater than 0.");
+                                        break;
+                                    }
+
+                                    List<RestaurantTable> availableTables = bookingService.getAvailableTables(
+                                            selectedReservationToUpdate.getSession(),
+                                            selectedReservationToUpdate.getDate(),
+                                            newSizeOfParty
+                                    );
+
+                                    if (availableTables.isEmpty()) {
+                                        System.out.println("No available tables for " + newSizeOfParty + " guests.");
+                                        break;
+                                    }
+                                    selectedReservationToUpdate.setSizeOfParty(newSizeOfParty);
+                                    bookingService.updateReservation(selectedReservationToUpdate);
+                                    System.out.println("Reservation " + selectedReservationToUpdate.getId() + " made by " + selectedReservationToUpdate.getCustomer().getName() + " updated. New size of party: " + newSizeOfParty);
+
+                                } catch (NumberFormatException e) {
+                                    System.out.println("Please enter a valid number of guests.");
+
+                                }
+                                break;
+
+                            case "3":
+                                Session[] changeSession = Session.values();
+                                System.out.println("New session: ");
+                                for (int i = 0; i < changeSession.length; i++) {
+                                    System.out.println((i + 1) + ". " + changeSession[i].getTime());
+                                }
+                                try {
+                                    int choiceOfNewSession = Integer.parseInt(scanner.nextLine());
+
+                                    if (choiceOfNewSession < 1 || choiceOfNewSession > changeSession.length) {
+                                        System.out.println("Invalid choice of session.");
+                                        break;
+                                    }
+                                    Session newSession = changeSession[choiceOfNewSession - 1];
+
+                                    List<RestaurantTable> availableTables = bookingService.getAvailableTables(
+                                            newSession,
+                                            selectedReservationToUpdate.getDate(),
+                                            selectedReservationToUpdate.getSizeOfParty()
+                                    );
+
+                                    if (availableTables.isEmpty()) {
+                                        System.out.println("No available tables for " + newSession);
+                                        break;
+                                    }
+
+                                    selectedReservationToUpdate.setSession(newSession);
+                                    bookingService.updateReservation(selectedReservationToUpdate);
+                                    System.out.println("\nReservation " + selectedReservationToUpdate.getId() + " made by " + selectedReservationToUpdate.getCustomer().getName() + " updated. New session: " + newSession.getTime());
+
+                                } catch (NumberFormatException e) {
+                                    System.out.println("Please enter a valid session.");
+                                }
+                                break;
+
+                            case "4":
+                                System.out.println(selectedReservationToUpdate);
+                                break;
+
+                            case "5":
+                                update = false;
+                                break;
+                        }
+                    }
+
+                    break;
+
+                case "6":
                     showMenu = false;
                     break;
             }
@@ -118,13 +302,17 @@ public class BookingMenu {
                     System.out.println("Enter customer name:");
                     String name = scanner.nextLine();
 
-                    service.getReservationByCustomer(name).forEach(System.out::println);
+                    bookingService.getReservationByCustomer(name).forEach(System.out::println);
                     break;
 
                 case "2":
-                    System.out.println("Enter date (YYYY-MM-DD");
-                    LocalDate date = LocalDate.parse(scanner.nextLine());
-                    service.getReservationsByDate(date).forEach(System.out::println);
+                    System.out.println("Enter date (YYYY-MM-DD):");
+                    try {
+                        LocalDate date = LocalDate.parse(scanner.nextLine());
+                        bookingService.getReservationsByDate(date).forEach(System.out::println);
+                    } catch (DateTimeParseException e) {
+                        System.out.println("Invalid date format, use YYYY-MM-DD.");
+                    }
                     break;
 
                 case "3":

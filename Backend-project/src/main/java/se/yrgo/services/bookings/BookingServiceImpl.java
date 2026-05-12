@@ -21,6 +21,11 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
+    public RestaurantTable findTableById(String tableId) {
+        return dao.findTableById(tableId);
+    }
+
+    @Override
     public void createReservation(Reservation newReservation) {
         dao.createReservation(newReservation);
     }
@@ -53,5 +58,9 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public List<Reservation> getReservationByCustomer(String name) {
         return dao.findByCustomer(name);
+    }
+
+    public void deleteAll() {
+        dao.deleteAll();
     }
 }

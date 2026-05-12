@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface BookingService {
     public void createTable(RestaurantTable newRestaurantTable);
+    public RestaurantTable findTableById(String tableId);
     public void createReservation(Reservation newReservation);
     public List<RestaurantTable> getAvailableTables(Session session, LocalDate date, int sizeOfParty);
     public Reservation updateReservation(Reservation updatedReservation);
@@ -18,4 +19,5 @@ public interface BookingService {
     public List<Reservation> getReservationsByDate(LocalDate date);
     public List<Reservation> getReservationByCustomer(String name);
 
+    void deleteAll();
 }

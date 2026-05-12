@@ -10,8 +10,9 @@ import se.yrgo.services.bookings.TableNotFoundException;
 
 import java.util.List;
 
-@Service
+
 @Transactional
+@Service
 public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     private EmployeeServiceDao dao;
