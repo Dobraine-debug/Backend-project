@@ -10,7 +10,7 @@ public interface EmployeeService {
     // Employee
     List<Employee> getAllEmployees();
     Employee findEmployeeById(String employeeId) throws EmployeeNotFoundException;
-    void saveEmployee(Employee employee);
+    void saveEmployee(Employee employee) throws DublicatedEmployeeIdException;
     void updateEmployee(Employee employeeToUpdate) throws EmployeeNotFoundException;
     void deleteEmployee(Employee employeeToDelete) throws EmployeeNotFoundException;
 
@@ -21,7 +21,7 @@ public interface EmployeeService {
     List<Schedule> findSchedulesByDate(String date);
 
     Schedule findScheduleById(String scheduleId) throws ScheduleNotFoundException;
-    void saveSchedule(Schedule schedule) throws TableNotFoundException, EmployeeNotFoundException;
+    void saveSchedule(Schedule schedule) throws TableNotFoundException, EmployeeNotFoundException, DublicatedScheduleIdException;
     void updateSchedule(Schedule scheduleToUpdate) throws ScheduleNotFoundException;
     void deleteSchedule(Schedule scheduleToDelete) throws ScheduleNotFoundException;
 

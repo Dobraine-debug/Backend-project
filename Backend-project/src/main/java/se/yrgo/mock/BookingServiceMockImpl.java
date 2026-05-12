@@ -23,6 +23,7 @@ public class BookingServiceMockImpl implements BookingService {
 
         mockTables.add(table2);
         mockTables.add(table3);
+        findTableById("Table 4");
 
         Customer customer1 = new Customer("PK", "Pelle Karlsson", "pelle@mail.com", "070-1");
         Customer customer2 = new Customer("AB", "Anita Berglund", "anita@mail.com", "070-2");
@@ -37,6 +38,11 @@ public class BookingServiceMockImpl implements BookingService {
         mockTables.add(newRestaurantTable);
         System.out.println("New table added: " + newRestaurantTable);
 
+    }
+
+    @Override
+    public RestaurantTable findTableById(String tableId) {
+        return new RestaurantTable("Table 4", 2);
     }
 
     @Override

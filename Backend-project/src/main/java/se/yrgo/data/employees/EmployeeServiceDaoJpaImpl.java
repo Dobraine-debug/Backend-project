@@ -1,4 +1,4 @@
-package se.yrgo.data;
+package se.yrgo.data.employees;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -7,6 +7,8 @@ import se.yrgo.domains.Employee;
 import se.yrgo.domains.Schedule;
 import se.yrgo.domains.RestaurantTable;
 import se.yrgo.services.bookings.TableNotFoundException;
+import se.yrgo.services.employees.DublicatedEmployeeIdException;
+import se.yrgo.services.employees.DublicatedScheduleIdException;
 import se.yrgo.services.employees.EmployeeNotFoundException;
 import se.yrgo.services.employees.ScheduleNotFoundException;
 
@@ -36,8 +38,13 @@ public class EmployeeServiceDaoJpaImpl implements EmployeeServiceDao {
     }
 
     @Override
-    public void createEmployee(Employee employee) {
-        em.persist(employee);
+    public void createEmployee(Employee employee) throws DublicatedEmployeeIdException {
+        try {
+            em.persist(employee);
+            em.flush();
+        } catch (jakarta.persistence.PersistenceException e) {
+            throw new DublicatedEmployeeIdException();
+        }
     }
 
     @Override
@@ -104,12 +111,12 @@ public class EmployeeServiceDaoJpaImpl implements EmployeeServiceDao {
 
     /**
      * Creates a new schedule for table and employee. Checks first that both employee and table exist.
-     * @param schedule
-     * @throws TableNotFoundException
-     * @throws EmployeeNotFoundException
+     * @param schedule schedule to be created
+     * @throws TableNotFoundException if table with the given id does not exist
+     * @throws EmployeeNotFoundException if employee with the given id does not exist
      */
     @Override
-    public void createSchedule(Schedule schedule) throws TableNotFoundException, EmployeeNotFoundException {
+    public void createSchedule(Schedule schedule) throws TableNotFoundException, EmployeeNotFoundException, DublicatedScheduleIdException {
         RestaurantTable restaurantTable = em.find(RestaurantTable.class, schedule.getTable().getId());
         Employee employee = em.find(Employee.class, schedule.getEmployee().getId());
 
@@ -124,7 +131,12 @@ public class EmployeeServiceDaoJpaImpl implements EmployeeServiceDao {
         employee.addScheduleForEmployee(schedule);
         restaurantTable.addScheduleForTable(schedule);
 
-        em.persist(schedule);
+        try {
+            em.persist(schedule);
+            em.flush();
+        } catch (jakarta.persistence.PersistenceException e) {
+            throw new DublicatedScheduleIdException();
+        }
     }
 
     @Override

@@ -1,8 +1,10 @@
-package se.yrgo.data;
+package se.yrgo.data.employees;
 
 import se.yrgo.domains.Employee;
 import se.yrgo.domains.Schedule;
 import se.yrgo.services.bookings.TableNotFoundException;
+import se.yrgo.services.employees.DublicatedEmployeeIdException;
+import se.yrgo.services.employees.DublicatedScheduleIdException;
 import se.yrgo.services.employees.EmployeeNotFoundException;
 import se.yrgo.services.employees.ScheduleNotFoundException;
 
@@ -12,7 +14,7 @@ public interface EmployeeServiceDao {
     // Employee
     List<Employee> getAllEmployees();
     Employee getEmployeeById(String employeeId) throws EmployeeNotFoundException;
-    void createEmployee(Employee employee);
+    void createEmployee(Employee employee) throws DublicatedEmployeeIdException;
     void updateEmployee(Employee employeeToUpdate) throws EmployeeNotFoundException;
     void deleteEmployee(Employee employeeToDelete) throws EmployeeNotFoundException;
 
@@ -23,7 +25,7 @@ public interface EmployeeServiceDao {
     List<Schedule> getSchedulesByDate(String date);
 
     Schedule getScheduleById(String scheduleId) throws ScheduleNotFoundException;
-    void createSchedule(Schedule schedule) throws TableNotFoundException, EmployeeNotFoundException;
+    void createSchedule(Schedule schedule) throws TableNotFoundException, EmployeeNotFoundException, DublicatedScheduleIdException;
     void updateSchedule(Schedule scheduleToUpdate) throws ScheduleNotFoundException;
     void deleteSchedule(Schedule scheduleToDelete) throws ScheduleNotFoundException;
     void deleteAll();

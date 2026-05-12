@@ -32,7 +32,7 @@ public class SimpleClient {
             EmployeeService employeeService = container.getBean(EmployeeService.class);
 
             BookingMenu bookingMenu = new BookingMenu(bookingService);
-            EmployeeMenu employeeMenu = new EmployeeMenu(employeeService);
+            EmployeeMenu employeeMenu = new EmployeeMenu(employeeService, bookingService);
             SampleData data = new SampleData();
             data.addData(service, employeeService, bookingService);
 
