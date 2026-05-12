@@ -279,8 +279,12 @@ public class EmployeeMenu {
         String date = scanner.nextLine();
         List<Schedule> scheduleList = employeeService.findSchedulesByDate(date);
 
-        for (Schedule schedule : scheduleList) {
-            System.out.println(schedule);
+        if (scheduleList.isEmpty()) {
+            System.out.println("No schedules for the date " + date);
+        } else {
+            for (Schedule schedule : scheduleList) {
+                System.out.println(schedule);
+            }
         }
     }
 

@@ -69,6 +69,13 @@ public class EmployeeServiceDaoJpaImpl implements EmployeeServiceDao {
             throw new EmployeeNotFoundException();
         }
 
+        // remove employee's schedules first (foreign key constraint)
+        List<Schedule> scheduleList = getSchedulesByEmployee(employee.getEmployeeId());
+
+        for (Schedule schedule : scheduleList) {
+            em.remove(schedule);
+        }
+
         em.remove(employee);
     }
 
