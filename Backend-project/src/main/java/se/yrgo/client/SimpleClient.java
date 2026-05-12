@@ -41,18 +41,18 @@ public class SimpleClient {
             Scanner sc = new Scanner(System.in);
 
             while (showMenu) {
-                System.out.println("Do you want to:" + "\n1: Manage customers" + "\n2: Manage invoices" + "\n3: Exit" + "\n4: Manage bookings" + "\n5: Manage employees and schedules");
+                System.out.println("Do you want to:" + "\n1: Manage customers" + "\n2: Manage invoices" + "\n3: Manage bookings" + "\n4: Manage employees and schedules" + "\n5: Exit");
                 String selection = sc.nextLine();
                 if (selection.equals("1")) {
                     customerCheck = true;
                 } else if (selection.equals("2")) {
                     invoiceCheck = true;
                 } else if (selection.equals("3")) {
-                    showMenu = false;
-                } else if (selection.equals("4")) {
                     bookingMenu.open();
-                } else if (selection.equals("5")) {
+                } else if (selection.equals("4")) {
                     employeeMenu.showEmployeeMainMenu();
+                } else if (selection.equals("5")) {
+                    showMenu = false;
                 }
 
                 while (customerCheck) {
