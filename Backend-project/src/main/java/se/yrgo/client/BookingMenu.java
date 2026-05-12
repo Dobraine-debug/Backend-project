@@ -168,7 +168,6 @@ public class BookingMenu {
                     Reservation selectedReservationToUpdate = listOfReservationsToUpdate.get(choiceReservationToUpdate);
 
                     while (update) {
-                        System.out.println("Update reservation " + selectedReservationToUpdate.getId() + " made by " + selectedReservationToUpdate.getCustomer().getName());
                         System.out.println(
                                 "1. Update date of reservation\n" +
                                         "2. Update number of guests\n" +
@@ -183,8 +182,21 @@ public class BookingMenu {
                                 System.out.println("New date (YYYY-MM-DD): ");
                                 try {
                                     LocalDate newDate = LocalDate.parse(scanner.nextLine());
+
+                                    List<RestaurantTable> availableTables = bookingService.getAvailableTables(
+                                            selectedReservationToUpdate.getSession(),
+                                            newDate,
+                                            selectedReservationToUpdate.getSizeOfParty());
+
+                                    if (availableTables.isEmpty()) {
+                                        System.out.println("No available tables for " + newDate);
+                                        break;
+                                    }
+
                                     selectedReservationToUpdate.setDate(newDate);
                                     bookingService.updateReservation(selectedReservationToUpdate);
+                                    System.out.println("Reservation" + selectedReservationToUpdate.getId() + " made by " + selectedReservationToUpdate.getCustomer().getName() + " updated. New date: " + newDate);
+
                                 } catch (DateTimeException e) {
                                     System.out.println("Invalid date format. Use YYYY-MM-DD");
                                 }
@@ -198,8 +210,20 @@ public class BookingMenu {
                                         System.out.println("Number of guests must be greater than 0.");
                                         break;
                                     }
+
+                                    List<RestaurantTable> availableTables = bookingService.getAvailableTables(
+                                            selectedReservationToUpdate.getSession(),
+                                            selectedReservationToUpdate.getDate(),
+                                            newSizeOfParty
+                                    );
+
+                                    if (availableTables.isEmpty()) {
+                                        System.out.println("No available tables for " + newSizeOfParty + " guests.");
+                                        break;
+                                    }
                                     selectedReservationToUpdate.setSizeOfParty(newSizeOfParty);
                                     bookingService.updateReservation(selectedReservationToUpdate);
+                                    System.out.println("Reservation " + selectedReservationToUpdate.getId() + " made by " + selectedReservationToUpdate.getCustomer().getName() + " updated. New size of party: " + newSizeOfParty);
 
                                 } catch (NumberFormatException e) {
                                     System.out.println("Please enter a valid number of guests.");
@@ -215,14 +239,28 @@ public class BookingMenu {
                                 }
                                 try {
                                     int choiceOfNewSession = Integer.parseInt(scanner.nextLine());
+
                                     if (choiceOfNewSession < 1 || choiceOfNewSession > changeSession.length) {
                                         System.out.println("Invalid choice of session.");
                                         break;
                                     }
                                     Session newSession = changeSession[choiceOfNewSession - 1];
-                                    selectedReservationToUpdate.setSession(newSession);
 
+                                    List<RestaurantTable> availableTables = bookingService.getAvailableTables(
+                                            newSession,
+                                            selectedReservationToUpdate.getDate(),
+                                            selectedReservationToUpdate.getSizeOfParty()
+                                    );
+
+                                    if (availableTables.isEmpty()) {
+                                        System.out.println("No available tables for " + newSession);
+                                        break;
+                                    }
+
+                                    selectedReservationToUpdate.setSession(newSession);
                                     bookingService.updateReservation(selectedReservationToUpdate);
+                                    System.out.println("\nReservation " + selectedReservationToUpdate.getId() + " made by " + selectedReservationToUpdate.getCustomer().getName() + " updated. New session: " + newSession.getTime());
+
                                 } catch (NumberFormatException e) {
                                     System.out.println("Please enter a valid session.");
                                 }
