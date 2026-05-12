@@ -5,19 +5,23 @@ import se.yrgo.domains.Reservation;
 import se.yrgo.domains.RestaurantTable;
 import se.yrgo.domains.Session;
 import se.yrgo.services.bookings.BookingService;
+import se.yrgo.services.customers.CustomerService;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
 
 public class BookingMenu {
-    private BookingService service;
+    private BookingService bookingService;
     private Scanner scanner;
+    private CustomerService service;
 
-    public BookingMenu(BookingService service) {
-        this.service = service;
+    public BookingMenu(BookingService bookingService, CustomerService service) {
+        this.bookingService = bookingService;
         this.scanner = new Scanner(System.in);
+        this.service = service;
     }
+
 
     public void open() {
         boolean showMenu = true;
@@ -34,11 +38,10 @@ public class BookingMenu {
 
             switch (choice) {
                 case "1":
-                    service.getAllReservations().forEach(System.out::println);
+                    bookingService.getAllReservations().forEach(System.out::println);
                     break;
 
                 case "2":
-                    service.createReservation(new Reservation());
                     System.out.println("Enter customer name:");
                     String name = scanner.nextLine();
 
@@ -66,8 +69,9 @@ public class BookingMenu {
                     int choiceOfSession = Integer.parseInt(scanner.nextLine());
                     Session session = sessions[choiceOfSession - 1];
 
-                    Customer customer = new Customer(name, customerID, email, phone);
-                    List<RestaurantTable> availableTables = service.getAvailableTables(session, date, sizeOfParty);
+                    Customer customer = new Customer(customerID, name, email, phone);
+                    service.newCustomer(customer);
+                    List<RestaurantTable> availableTables = bookingService.getAvailableTables(session, date, sizeOfParty);
 
                     if (availableTables.isEmpty()) {
                         System.out.println("No available table.");
@@ -82,13 +86,13 @@ public class BookingMenu {
                         RestaurantTable selectedTable = availableTables.get(tableChoice);
 
                     Reservation reservation = new Reservation(customer, selectedTable, session, date, sizeOfParty);
-                    service.createReservation(reservation);
+                    bookingService.createReservation(reservation);
                     break;
 
                 case "3":
                     System.out.println("Enter customer ID (first 2 letters of first and last name, e.g. KALU):");
                     String customerId = scanner.nextLine();
-                    List<Reservation> allReservationsByCustomer = service.getReservationByCustomer(customerId);
+                    List<Reservation> allReservationsByCustomer = bookingService.getReservationByCustomer(customerId);
                     for (Reservation r : allReservationsByCustomer) {
                         System.out.println(r);
                     }
@@ -125,13 +129,13 @@ public class BookingMenu {
                     System.out.println("Enter customer name:");
                     String name = scanner.nextLine();
 
-                    service.getReservationByCustomer(name).forEach(System.out::println);
+                    bookingService.getReservationByCustomer(name).forEach(System.out::println);
                     break;
 
                 case "2":
                     System.out.println("Enter date (YYYY-MM-DD");
                     LocalDate date = LocalDate.parse(scanner.nextLine());
-                    service.getReservationsByDate(date).forEach(System.out::println);
+                    bookingService.getReservationsByDate(date).forEach(System.out::println);
                     break;
 
                 case "3":
