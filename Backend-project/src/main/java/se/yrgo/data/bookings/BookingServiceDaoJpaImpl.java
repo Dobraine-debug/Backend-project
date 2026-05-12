@@ -1,4 +1,4 @@
-package se.yrgo.data;
+package se.yrgo.data.bookings;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
