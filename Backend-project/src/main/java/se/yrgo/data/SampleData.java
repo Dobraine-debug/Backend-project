@@ -15,12 +15,9 @@ import java.time.LocalDate;
 
 public class SampleData {
     public void addData(CustomerService customer, EmployeeService employeeService, BookingService bookingService) throws CustomerNotFoundException {
-        customer.deleteAll();
         employeeService.deleteAll();
         bookingService.deleteAll();
-
-
-        bookingService.deleteAll();
+        customer.deleteAll();
         Customer customer1 = new Customer("DASK", "David Skansholm",
                 "david@skansholm.com", "0736-230384");
         Customer customer2 = new Customer("ERGR", "Erik Granqvist",
@@ -42,12 +39,12 @@ public class SampleData {
         customer.newCustomer(customer3);
         customer.newCustomer(customer4);
         customer.newCustomer(customer5);
-        customer.addInvoice(invoice1, "C101");
-        customer.addInvoice(invoice2, "C103");
-        customer.addInvoice(invoice3, "C103");
-        customer.addInvoice(invoice4, "C104");
-        customer.addInvoice(invoice5, "C105");
-        customer.addInvoice(invoice6, "C105");
+        customer.addInvoice(invoice1, "DASK");
+        customer.addInvoice(invoice2, "JOFR");
+        customer.addInvoice(invoice3, "JOFR");
+        customer.addInvoice(invoice4, "HAHA");
+        customer.addInvoice(invoice5, "JORU");
+        customer.addInvoice(invoice6, "JORU");
 
         Employee employee1 = new Employee("E101", "Bengt Bengtsson", "09090909", "bosse@example.com");
         Employee employee2 = new Employee("E102", "Lars Larsson", "08080808", "lars@example.com");

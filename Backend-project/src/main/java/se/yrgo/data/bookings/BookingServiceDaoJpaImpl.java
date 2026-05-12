@@ -95,14 +95,14 @@ public class BookingServiceDaoJpaImpl implements BookingServiceDao {
 
     @Override
     public void deleteAll() {
-        List<RestaurantTable> allTables = findAllTables();
-        for (RestaurantTable t : allTables) {
-            em.remove(t);
-        }
-
         List<Reservation> allReservations = findAllReservations();
         for (Reservation r : allReservations) {
             em.remove(r);
+        }
+
+        List<RestaurantTable> allTables = findAllTables();
+        for (RestaurantTable t : allTables) {
+            em.remove(t);
         }
     }
 }
