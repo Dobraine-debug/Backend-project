@@ -31,7 +31,7 @@ public class SimpleClient {
             BookingService bookingService = container.getBean(BookingService.class);
             EmployeeService employeeService = container.getBean(EmployeeService.class);
 
-            BookingMenu bookingMenu = new BookingMenu(bookingService);
+            BookingMenu bookingMenu = new BookingMenu(bookingService, service);
             EmployeeMenu employeeMenu = new EmployeeMenu(employeeService, bookingService);
             SampleData data = new SampleData();
             data.addData(service, employeeService, bookingService);
