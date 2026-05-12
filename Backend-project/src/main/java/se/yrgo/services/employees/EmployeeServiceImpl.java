@@ -80,4 +80,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     public void deleteSchedule(Schedule scheduleToDelete) throws ScheduleNotFoundException {
         dao.deleteSchedule(scheduleToDelete);
     }
+
+    @Override
+    public void deleteAll() {
+        dao.deleteAll();
+    }
 }

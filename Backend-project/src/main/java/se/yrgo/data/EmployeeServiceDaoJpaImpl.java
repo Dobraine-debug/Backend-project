@@ -154,4 +154,18 @@ public class EmployeeServiceDaoJpaImpl implements EmployeeServiceDao {
 
         em.remove(schedule);
     }
+
+    @Override
+    public void deleteAll() {
+        List<Employee> employees = getAllEmployees();
+        List<Schedule> schedules = getAllSchedules();
+
+        for (Employee e : employees) {
+            em.remove(e);
+        }
+
+        for (Schedule s : schedules) {
+            em.remove(schedules);
+        }
+    }
 }

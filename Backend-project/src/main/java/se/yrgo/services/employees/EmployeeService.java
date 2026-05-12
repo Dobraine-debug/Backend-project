@@ -24,4 +24,6 @@ public interface EmployeeService {
     void saveSchedule(Schedule schedule) throws TableNotFoundException, EmployeeNotFoundException;
     void updateSchedule(Schedule scheduleToUpdate) throws ScheduleNotFoundException;
     void deleteSchedule(Schedule scheduleToDelete) throws ScheduleNotFoundException;
+
+    void deleteAll();
 }

@@ -26,4 +26,5 @@ public interface EmployeeServiceDao {
     void createSchedule(Schedule schedule) throws TableNotFoundException, EmployeeNotFoundException;
     void updateSchedule(Schedule scheduleToUpdate) throws ScheduleNotFoundException;
     void deleteSchedule(Schedule scheduleToDelete) throws ScheduleNotFoundException;
+    void deleteAll();
 }

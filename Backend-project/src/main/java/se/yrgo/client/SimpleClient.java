@@ -12,6 +12,7 @@ import se.yrgo.services.bookings.BookingService;
 import se.yrgo.services.customers.CustomerNotFoundException;
 import se.yrgo.services.customers.CustomerService;
 import se.yrgo.services.customers.InvoiceNotFoundException;
+import se.yrgo.services.employees.EmployeeService;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -25,11 +26,15 @@ public class SimpleClient {
             Boolean showMenu = true;
             Boolean customerCheck = false;
             Boolean invoiceCheck = false;
+
             CustomerService service = container.getBean(CustomerService.class);
             BookingService bookingService = container.getBean(BookingService.class);
+            EmployeeService employeeService = container.getBean(EmployeeService.class);
+
             BookingMenu bookingMenu = new BookingMenu(bookingService);
             SampleData data = new SampleData();
-            data.addData(service);
+            data.addData(service, employeeService, bookingService);
+
             System.out.println("Welcome to the administrative system of Restaurant Backend.");
             Thread.sleep(1000);
             Scanner sc = new Scanner(System.in);
