@@ -314,7 +314,13 @@ public class BookingMenu {
                     System.out.println("Enter date (YYYY-MM-DD):");
                     try {
                         LocalDate date = LocalDate.parse(scanner.nextLine());
-                        bookingService.getReservationsByDate(date).forEach(System.out::println);
+                        var reservationsByDate = bookingService.getReservationsByDate(date);
+                        if (reservationsByDate.isEmpty()) {
+                            System.out.println("No reservations for " + date + ".");
+                        } else {
+                            reservationsByDate.forEach(System.out::println);
+                        }
+
                     } catch (DateTimeParseException e) {
                         System.out.println("Invalid date format, use YYYY-MM-DD.");
                     }
