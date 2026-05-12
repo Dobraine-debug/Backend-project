@@ -165,7 +165,7 @@ public class EmployeeServiceDaoJpaImpl implements EmployeeServiceDao {
         }
 
         for (Schedule s : schedules) {
-            em.remove(schedules);
+            em.remove(s);
         }
     }
 }

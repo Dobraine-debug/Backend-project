@@ -22,7 +22,7 @@ import java.util.Scanner;
 public class SimpleClient {
     public static void main(String[] args) {
         ClassPathXmlApplicationContext container = new ClassPathXmlApplicationContext("application.xml");
-        try  {
+        try {
             Boolean showMenu = true;
             Boolean customerCheck = false;
             Boolean invoiceCheck = false;
@@ -32,35 +32,38 @@ public class SimpleClient {
             EmployeeService employeeService = container.getBean(EmployeeService.class);
 
             BookingMenu bookingMenu = new BookingMenu(bookingService);
+            EmployeeMenu employeeMenu = new EmployeeMenu(employeeService);
             SampleData data = new SampleData();
             data.addData(service, employeeService, bookingService);
 
             System.out.println("Welcome to the administrative system of Restaurant Backend.");
             Thread.sleep(1000);
             Scanner sc = new Scanner(System.in);
-            while(showMenu){
-                System.out.println("Do you want to:" +"\n1: Manage customers" + "\n2: Manage invoices" + "\n3: Exit" + "\n4: Manage bookings");
+
+            while (showMenu) {
+                System.out.println("Do you want to:" + "\n1: Manage customers" + "\n2: Manage invoices" + "\n3: Exit" + "\n4: Manage bookings" + "\n5: Manage employees and schedules");
                 String selection = sc.nextLine();
-                if(selection.equals("1")){
+                if (selection.equals("1")) {
                     customerCheck = true;
-                }
-                else if (selection.equals("2")) {
+                } else if (selection.equals("2")) {
                     invoiceCheck = true;
-                }
-                else if (selection.equals("3")){
+                } else if (selection.equals("3")) {
                     showMenu = false;
                 } else if (selection.equals("4")) {
                     bookingMenu.open();
+                } else if (selection.equals("5")) {
+                    employeeMenu.showEmployeeMainMenu();
                 }
-                while(customerCheck){
+
+                while (customerCheck) {
                     System.out.println("Please select action:");
                     Thread.sleep(1000);
                     System.out.println("1: View all customers" + "\n2: Find customer based on ID"
                             + "\n3: Add new customer" + "\n4: Return to main menu");
                     selection = sc.nextLine();
-                    if(selection.equals("1")){
+                    if (selection.equals("1")) {
                         List<Customer> customers = service.showCustomers();
-                        for(Customer customer : customers){
+                        for (Customer customer : customers) {
                             System.out.println(customer.getCustomer());
                         }
                     } else if (selection.equals("2")) {
@@ -90,28 +93,26 @@ public class SimpleClient {
                     }
 
                 }
-                while(invoiceCheck){
+                while (invoiceCheck) {
                     System.out.println("Please select action:");
                     Thread.sleep(1000);
                     System.out.println("1: View all invoices" + "\n2: Find all invoices based on customer ID"
-                            + "\n3: Create new invoice" +  "\n4: Delete invoice" + "\n5: Return to main menu");
+                            + "\n3: Create new invoice" + "\n4: Delete invoice" + "\n5: Return to main menu");
                     selection = sc.nextLine();
-                    if(selection.equals("1")){
+                    if (selection.equals("1")) {
                         List<Invoice> invoices = service.showInvoices();
-                        for(Invoice invoice : invoices){
+                        for (Invoice invoice : invoices) {
                             System.out.println(invoice);
                         }
-                    }
-                    else if(selection.equals("2")){
+                    } else if (selection.equals("2")) {
                         Thread.sleep(1000);
                         System.out.println("Please write customer ID:");
                         String id = sc.nextLine();
                         List<Invoice> invoices = service.findInvoices(id);
-                        for(Invoice invoice : invoices){
+                        for (Invoice invoice : invoices) {
                             System.out.println(invoice);
                         }
-                    }
-                    else if(selection.equals("3")){
+                    } else if (selection.equals("3")) {
                         Thread.sleep(1000);
                         System.out.println("Please write customer ID:");
                         String customerId = sc.nextLine();
@@ -124,20 +125,17 @@ public class SimpleClient {
                         Invoice invoice = new Invoice(invoiceId, amount);
                         service.newInvoice(invoice);
                         service.addInvoice(invoice, customerId);
-                    }
-                    else if(selection.equals("4")){
+                    } else if (selection.equals("4")) {
                         System.out.println("Please write invoice ID:");
                         String invoiceId = sc.nextLine();
                         Thread.sleep(1000);
                         System.out.println("Please write customer ID:");
                         String customerId = sc.nextLine();
                         service.removeInvoice(invoiceId, customerId);
-                    }
-                    else if(selection.equals("5")){
+                    } else if (selection.equals("5")) {
                         invoiceCheck = false;
                     }
                 }
-
 
 
             }
