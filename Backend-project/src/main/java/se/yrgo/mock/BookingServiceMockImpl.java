@@ -139,4 +139,12 @@ public class BookingServiceMockImpl implements BookingService {
         System.out.println("Get reservations by customer name: ");
         return result;
     }
+
+    @Override
+    public void deleteAll() {
+        List<Reservation> allReservations = getAllReservations();
+        for (Reservation r : allReservations) {
+            System.out.println("delete r");
+        }
+    }
 }

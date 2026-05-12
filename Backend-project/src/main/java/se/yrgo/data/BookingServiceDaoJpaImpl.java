@@ -93,5 +93,13 @@ public class BookingServiceDaoJpaImpl implements BookingServiceDao {
         em.persist(newRestaurantTable);
     }
 
+    @Override
+    public void deleteAll() {
+        List<Reservation> allReservations = findAllReservations();
+        for (Reservation r : allReservations) {
+            em.remove(r);
+        }
+    }
+
 
 }

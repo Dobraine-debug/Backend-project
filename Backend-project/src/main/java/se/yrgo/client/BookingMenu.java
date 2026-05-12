@@ -1,13 +1,11 @@
 package se.yrgo.client;
 
-import org.springframework.cglib.core.Local;
 import se.yrgo.domains.Customer;
 import se.yrgo.domains.Reservation;
 import se.yrgo.domains.RestaurantTable;
 import se.yrgo.domains.Session;
 import se.yrgo.services.bookings.BookingService;
 
-import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
@@ -29,7 +27,8 @@ public class BookingMenu {
                     "2. Add new reservation\n" +
                     "3. Cancel reservation\n" +
                     "4. Find reservation\n" +
-                    "5. Back");
+                    "5. Update reservation\n" +
+                    "6. Back");
 
             String choice = scanner.nextLine();
 
@@ -87,7 +86,12 @@ public class BookingMenu {
                     break;
 
                 case "3":
-
+                    System.out.println("Enter customer ID (first 2 letters of first and last name, e.g. KALU):");
+                    String customerId = scanner.nextLine();
+                    List<Reservation> allReservationsByCustomer = service.getReservationByCustomer(customerId);
+                    for (Reservation r : allReservationsByCustomer) {
+                        System.out.println(r);
+                    }
                     break;
 
                 case "4":
@@ -95,6 +99,9 @@ public class BookingMenu {
                     break;
 
                 case "5":
+
+
+                case "6":
                     showMenu = false;
                     break;
             }

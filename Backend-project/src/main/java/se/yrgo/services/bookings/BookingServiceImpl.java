@@ -54,4 +54,8 @@ public class BookingServiceImpl implements BookingService {
     public List<Reservation> getReservationByCustomer(String name) {
         return dao.findByCustomer(name);
     }
+
+    public void deleteAll() {
+        dao.deleteAll();
+    }
 }

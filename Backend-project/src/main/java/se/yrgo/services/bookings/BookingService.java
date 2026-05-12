@@ -18,4 +18,5 @@ public interface BookingService {
     public List<Reservation> getReservationsByDate(LocalDate date);
     public List<Reservation> getReservationByCustomer(String name);
 
+    void deleteAll();
 }

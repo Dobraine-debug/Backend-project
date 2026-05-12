@@ -19,4 +19,5 @@ public interface BookingServiceDao {
     public List<RestaurantTable> findAvailableTables(LocalDate date, Session session, int sizeOfParty);
 
     void createTable(RestaurantTable newRestaurantTable);
+    void deleteAll();
 }
