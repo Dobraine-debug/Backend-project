@@ -4,6 +4,13 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 
+/**
+ * Represents a booking/reservation in the restaurant's system.
+ * One reservation is connected to:
+ * - one Customer
+ * - one RestaurantTable
+ * - one Session
+ */
 @Entity
 public class Reservation {
     @Id
@@ -13,13 +20,19 @@ public class Reservation {
     private int reservationId;
     private LocalDate date;
     private int sizeOfParty;
-
+    /**
+     * Represents the time of reservation.
+     */
     @Enumerated(EnumType.STRING)
     private Session session;
-
+    /**
+     * Represents the customer who made the reservation.
+     */
     @ManyToOne
     private Customer customer;
-
+    /**
+     * Represents the table connected to the reservation.
+     */
     @ManyToOne
     private RestaurantTable restaurantTable;
 

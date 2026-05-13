@@ -5,6 +5,9 @@ import se.yrgo.domains.*;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Data access interface for booking-related persistence operations
+ */
 public interface BookingServiceDao {
     public void createReservation(Reservation newReservation);
     public void cancelReservation(int id);

@@ -9,6 +9,10 @@ import se.yrgo.domains.*;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Service layer responsible for booking-related business operations.
+ * Handles transactions between controllers and DAO layer.
+ */
 @Transactional
 @Service
 public class BookingServiceImpl implements BookingService {

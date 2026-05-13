@@ -13,6 +13,10 @@ import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Console-baes menu for managing restarant bookings/reservations.
+ * Handles creating, updating, searching and cancelling bookings.
+ */
 public class BookingMenu {
     private BookingService bookingService;
     private Scanner scanner;
@@ -43,6 +47,7 @@ public class BookingMenu {
                     bookingService.getAllReservations().forEach(System.out::println);
                     break;
 
+                //Create new reservation
                 case "2":
                     try {
                         System.out.println("Enter customer name:");
@@ -71,7 +76,7 @@ public class BookingMenu {
                         Session[] sessions = Session.values();
 
                         for (int i = 0; i < sessions.length; i++) {
-                            System.out.println((i + 1) + ". " + sessions[i].getTime());
+                            System.out.println("[" + (i + 1) + "]: " + sessions[i].getTime());
                         }
                         int choiceOfSession = Integer.parseInt(scanner.nextLine());
                         if (choiceOfSession < 1 || choiceOfSession > sessions.length) {
@@ -90,7 +95,7 @@ public class BookingMenu {
                         }
                         System.out.println("Available tables:");
                         for (int i = 0; i < availableTables.size(); i++) {
-                            System.out.println((i + 1) + ": " + availableTables.get(i));
+                            System.out.println("[" + (i + 1) + "]:" + availableTables.get(i) + "\n");
                         }
                         System.out.println("Choose an available table:");
                         int tableChoice = Integer.parseInt(scanner.nextLine()) - 1;
@@ -113,10 +118,10 @@ public class BookingMenu {
                         System.out.println("Something went wrong: " + e.getMessage());
                     }
                     break;
-
+                //Cancel existing reservation
                 case "3":
                     System.out.println("Enter customer name:");
-                    String customerName = scanner.nextLine().toLowerCase();
+                    String customerName = scanner.nextLine();
                     List<Reservation> allReservationsMadeByCustomer = bookingService.getReservationByCustomer(customerName);
                     if (allReservationsMadeByCustomer.isEmpty()) {
                         System.out.println("No reservations found.");
@@ -124,7 +129,7 @@ public class BookingMenu {
                     }
                     System.out.println("Reservations:");
                     for (int i = 0; i < allReservationsMadeByCustomer.size(); i++) {
-                        System.out.println(i + 1 + ". " + allReservationsMadeByCustomer.get(i));
+                        System.out.println("[" + (i + 1) + "]: " + allReservationsMadeByCustomer.get(i));
                     }
                     System.out.println("Choose reservation to cancel: ");
                     int reservationToCancel = Integer.parseInt(scanner.nextLine()) - 1;
@@ -139,10 +144,11 @@ public class BookingMenu {
                                     " cancelled");
                     break;
 
+                //Submenu for searching reservations
                 case "4":
                     searchMenu();
                     break;
-
+                //Update reservation details
                 case "5":
                     boolean update = true;
                     System.out.println("Update reservation\n");
@@ -159,7 +165,7 @@ public class BookingMenu {
 
                     System.out.println("Reservations: ");
                     for (int i = 0; i < listOfReservationsToUpdate.size(); i++) {
-                        System.out.println(i + 1 + ". " + listOfReservationsToUpdate.get(i));
+                        System.out.println("[" + (i + 1) + "]: " + listOfReservationsToUpdate.get(i));
                     }
 
                     System.out.println("Choose reservation to update: ");
@@ -195,7 +201,7 @@ public class BookingMenu {
 
                                     selectedReservationToUpdate.setDate(newDate);
                                     bookingService.updateReservation(selectedReservationToUpdate);
-                                    System.out.println("Reservation" + selectedReservationToUpdate.getId() + " made by " + selectedReservationToUpdate.getCustomer().getName() + " updated. New date: " + newDate);
+                                    System.out.println("Reservation " + selectedReservationToUpdate.getId() + " made by " + selectedReservationToUpdate.getCustomer().getName() + " updated. New date: " + newDate);
 
                                 } catch (DateTimeException e) {
                                     System.out.println("Invalid date format. Use YYYY-MM-DD");
@@ -234,8 +240,9 @@ public class BookingMenu {
                             case "3":
                                 Session[] changeSession = Session.values();
                                 System.out.println("New session: ");
+                                //Show available booking sessions
                                 for (int i = 0; i < changeSession.length; i++) {
-                                    System.out.println((i + 1) + ". " + changeSession[i].getTime());
+                                    System.out.println("[" + (i + 1) + "]: " + changeSession[i].getTime());
                                 }
                                 try {
                                     int choiceOfNewSession = Integer.parseInt(scanner.nextLine());
@@ -246,6 +253,7 @@ public class BookingMenu {
                                     }
                                     Session newSession = changeSession[choiceOfNewSession - 1];
 
+                                    //Verify that a table is available before updating reservation
                                     List<RestaurantTable> availableTables = bookingService.getAvailableTables(
                                             newSession,
                                             selectedReservationToUpdate.getDate(),
@@ -285,6 +293,9 @@ public class BookingMenu {
         }
     }
 
+    /**
+     * Submenu for searching reservations
+     */
     private void searchMenu() {
         boolean searching = true;
 
@@ -314,7 +325,13 @@ public class BookingMenu {
                     System.out.println("Enter date (YYYY-MM-DD):");
                     try {
                         LocalDate date = LocalDate.parse(scanner.nextLine());
-                        bookingService.getReservationsByDate(date).forEach(System.out::println);
+                        var reservationsByDate = bookingService.getReservationsByDate(date);
+                        if (reservationsByDate.isEmpty()) {
+                            System.out.println("No reservations for " + date + ".");
+                        } else {
+                            reservationsByDate.forEach(System.out::println);
+                        }
+
                     } catch (DateTimeParseException e) {
                         System.out.println("Invalid date format, use YYYY-MM-DD.");
                     }

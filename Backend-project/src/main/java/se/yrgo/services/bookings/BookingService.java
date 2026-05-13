@@ -7,6 +7,10 @@ import se.yrgo.domains.RestaurantTable;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Service layer for booking operations.
+ * Handles business logic fo reservations and table availability.
+ */
 public interface BookingService {
     public void createTable(RestaurantTable newRestaurantTable);
     public RestaurantTable findTableById(String tableId);
