@@ -45,6 +45,6 @@ public class Invoice {
 
     @Override
     public String toString(){
-        return "Invoice ID: " + invoiceId + "\nAmount: " + amount + "\nDate: " + invoiceDate + "\nCustomer ID: " +"\n";
+        return "Invoice ID: " + invoiceId + "\nAmount: " + amount + "\nDate: " + invoiceDate +"\n";
     }
 }

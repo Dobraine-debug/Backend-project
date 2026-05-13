@@ -124,7 +124,6 @@ public class SimpleClient {
                         System.out.println("Please write invoice amount:");
                         double amount = Double.valueOf(sc.nextLine());
                         Invoice invoice = new Invoice(invoiceId, amount);
-                        service.newInvoice(invoice);
                         service.addInvoice(invoice, customerId);
                     } else if (selection.equals("4")) {
                         System.out.println("Please write invoice ID:");
