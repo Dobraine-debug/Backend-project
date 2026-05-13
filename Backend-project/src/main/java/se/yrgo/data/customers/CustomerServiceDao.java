@@ -5,6 +5,11 @@ import se.yrgo.services.customers.InvoiceNotFoundException;
 
 import java.util.List;
 
+/**
+ * @author David Skansholm
+ * Data access interface for customer- and invoice-related operations.
+ */
+
 public interface CustomerServiceDao {
     public List<Customer> allCustomers();
     public Customer findById(String customerId) throws CustomerNotFoundException;

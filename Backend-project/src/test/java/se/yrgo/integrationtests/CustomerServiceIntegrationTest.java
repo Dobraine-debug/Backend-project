@@ -16,6 +16,11 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * @author David Skansholm
+ * Integration test for operations based on CustomerService interface.
+ */
+
 @ContextConfiguration({"/application.xml", "/datasource-test.xml"})
 @Transactional
 @ExtendWith(SpringExtension.class)

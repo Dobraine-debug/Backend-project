@@ -6,6 +6,11 @@ import jakarta.persistence.Id;
 
 import java.time.LocalDate;
 
+/**
+ * @author David Skansholm
+ * Invoice class which represents an invoice from the restaurant.
+ */
+
 @Entity
 public class Invoice {
     @Id

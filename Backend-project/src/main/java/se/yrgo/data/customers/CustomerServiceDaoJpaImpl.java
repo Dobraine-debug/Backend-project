@@ -11,6 +11,12 @@ import se.yrgo.services.customers.InvoiceNotFoundException;
 
 import java.util.List;
 
+/**
+ * @author David Skansholm
+ * Data access object for JPA-based queries, insertions, modification and deletions in the database
+ * concerning customers and invoices.
+ */
+
 @Transactional
 @Repository
 public class CustomerServiceDaoJpaImpl implements CustomerServiceDao {

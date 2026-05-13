@@ -1,3 +1,10 @@
+/**
+ * @author David Skansholm
+ * AOP for the customer service interface. Logs executed methods and their classes, the
+ * length of each operation and when insertions are made to the Customer and Invoice tables.
+ * Disabled by default through comments in order to not clog up the terminal.
+ */
+
 /**package se.yrgo.advice;
 
 import org.aspectj.lang.JoinPoint;

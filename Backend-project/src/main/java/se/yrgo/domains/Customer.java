@@ -5,6 +5,11 @@ import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author David Skansholm
+ * Customer class which represents a customer of the restaurant.
+ */
+
 @Entity
 public class Customer {
     @Id

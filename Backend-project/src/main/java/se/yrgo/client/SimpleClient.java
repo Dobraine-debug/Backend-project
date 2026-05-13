@@ -19,6 +19,8 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.Scanner;
 
+
+
 @Transactional
 public class SimpleClient {
     public static void main(String[] args) {

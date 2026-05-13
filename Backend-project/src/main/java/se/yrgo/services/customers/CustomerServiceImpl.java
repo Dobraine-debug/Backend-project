@@ -9,6 +9,12 @@ import se.yrgo.domains.Invoice;
 
 import java.util.List;
 
+/**
+ * @author David Skansholm
+ * Service class for customer- and invoice-related operations.
+ * Handles transactions between controllers and DAO layer.
+ */
+
 @Transactional
 @Service("customerService")
 public class CustomerServiceImpl implements CustomerService{

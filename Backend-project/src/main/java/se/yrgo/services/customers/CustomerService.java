@@ -5,6 +5,11 @@ import se.yrgo.domains.Invoice;
 
 import java.util.List;
 
+/**
+ * @author David Skansholm
+ * Service interface for customer service
+ */
+
 public interface CustomerService {
     public List<Customer> showCustomers();
     public Customer findCustomer(String customerId) throws CustomerNotFoundException;
