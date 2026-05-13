@@ -73,7 +73,7 @@ public class CustomerServiceDaoJpaImpl implements CustomerServiceDao {
                     .setParameter("customerId", customerId).getSingleResult();
             customer.addInvoice(invoice);
             em.persist(invoice);
-            em.persist(customer);
+            em.merge(customer);
         }
         catch (NoResultException e) {
             throw new CustomerNotFoundException();
