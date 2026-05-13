@@ -13,6 +13,10 @@ import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Console-baes menu for managing restarant bookings/reservations.
+ * Handles creating, updating, searching and cancelling bookings.
+ */
 public class BookingMenu {
     private BookingService bookingService;
     private Scanner scanner;
@@ -43,6 +47,7 @@ public class BookingMenu {
                     bookingService.getAllReservations().forEach(System.out::println);
                     break;
 
+                //Create new reservation
                 case "2":
                     try {
                         System.out.println("Enter customer name:");
@@ -113,7 +118,7 @@ public class BookingMenu {
                         System.out.println("Something went wrong: " + e.getMessage());
                     }
                     break;
-
+                //Cancel existing reservation
                 case "3":
                     System.out.println("Enter customer name:");
                     String customerName = scanner.nextLine();
@@ -139,10 +144,11 @@ public class BookingMenu {
                                     " cancelled");
                     break;
 
+                //Submenu for searching reservations
                 case "4":
                     searchMenu();
                     break;
-
+                //Update reservation details
                 case "5":
                     boolean update = true;
                     System.out.println("Update reservation\n");
@@ -234,6 +240,7 @@ public class BookingMenu {
                             case "3":
                                 Session[] changeSession = Session.values();
                                 System.out.println("New session: ");
+                                //Show available booking sessions
                                 for (int i = 0; i < changeSession.length; i++) {
                                     System.out.println("[" + (i + 1) + "]: " + changeSession[i].getTime());
                                 }
@@ -246,6 +253,7 @@ public class BookingMenu {
                                     }
                                     Session newSession = changeSession[choiceOfNewSession - 1];
 
+                                    //Verify that a table is available before updating reservation
                                     List<RestaurantTable> availableTables = bookingService.getAvailableTables(
                                             newSession,
                                             selectedReservationToUpdate.getDate(),
@@ -285,6 +293,9 @@ public class BookingMenu {
         }
     }
 
+    /**
+     * Submenu for searching reservations
+     */
     private void searchMenu() {
         boolean searching = true;
 

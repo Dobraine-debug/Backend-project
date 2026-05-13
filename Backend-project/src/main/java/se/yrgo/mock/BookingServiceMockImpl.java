@@ -10,6 +10,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class implementing BookService interface and containing mock data.
+ */
 public class BookingServiceMockImpl implements BookingService {
 
     private List<RestaurantTable> mockTables = new ArrayList<>();

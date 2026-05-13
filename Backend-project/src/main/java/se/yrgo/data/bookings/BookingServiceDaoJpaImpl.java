@@ -68,6 +68,12 @@ public class BookingServiceDaoJpaImpl implements BookingServiceDao {
         return em.createQuery("select t from RestaurantTable as t where t.tableId=:tableId", RestaurantTable.class).setParameter("tableId", tableId).getSingleResult();
     }
 
+    /**
+     *
+     * Find tables that:
+     * - have enough seats for the number of guests/party size
+     * - are not already booked for the given date and session
+     */
     @Override
     public List<RestaurantTable> findAvailableTables(LocalDate date, Session session, int sizeOfParty) {
         List<RestaurantTable> restaurantTables = em.createQuery("select t from RestaurantTable as t where t.numberOfSeats >=:sizeOfParty", RestaurantTable.class).setParameter("sizeOfParty", sizeOfParty).getResultList();
@@ -75,6 +81,7 @@ public class BookingServiceDaoJpaImpl implements BookingServiceDao {
         for (RestaurantTable restaurantTable : restaurantTables) {
             boolean isBooked = false;
 
+            //Checks if the table is already reserved for the requested date and session
             for (Reservation reservation : restaurantTable.getReservations()) {
                 if (reservation.getDate().equals(date) && reservation.getSession() == session) {
                     isBooked = true;
@@ -93,6 +100,10 @@ public class BookingServiceDaoJpaImpl implements BookingServiceDao {
         em.persist(newRestaurantTable);
     }
 
+    /**
+     * Removes all reservations from the database.
+     * Intended for testing purposes.
+     */
     @Override
     public void deleteAll() {
         List<Reservation> allReservations = findAllReservations();
