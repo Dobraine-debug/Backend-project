@@ -78,8 +78,6 @@ public class CustomerServiceDaoJpaImpl implements CustomerServiceDao {
         catch (NoResultException e) {
             throw new CustomerNotFoundException();
         }
-
-
     }
 
     @Override
